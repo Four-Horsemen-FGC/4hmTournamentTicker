@@ -1,0 +1,38 @@
+{
+  "name": "4hmtournamentticker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve",
+    "build": "webpack",
+    "build-dev": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Four-Horsemen-FGC/4hmTournamentTicker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Four-Horsemen-FGC/4hmTournamentTicker/issues"
+  },
+  "homepage": "https://github.com/Four-Horsemen-FGC/4hmTournamentTicker#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "babel-loader": "^8.2.2",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^4.5.1",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1",
+    "webpack-dev-server": "^3.11.1"
+  }
+}
