@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/Four-Horsemen-FGC/4hmTournamentTicker#readme",
   "dependencies": {
+    "@apollo/client": "^3.3.6",
     "express": "^4.17.1",
+    "graphql": "^15.4.0",
     "nodemon": "^2.0.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
@@ -29,8 +31,10 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-loader": "^8.2.2",
+    "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.1",
+    "style-loader": "^2.0.0",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1",
     "webpack-dev-server": "^3.11.1"
