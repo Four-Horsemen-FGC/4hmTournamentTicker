@@ -2,7 +2,7 @@ import React from 'react';
 
 function Score(props) {
   return (
-    <div className={props.outcome}>
+    <div className={'scoreWin ' + props.outcome} >
       <h2>{props.score}</h2>
     </div>
   );
