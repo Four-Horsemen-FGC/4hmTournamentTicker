@@ -6,13 +6,14 @@ function Clock() {
   useEffect(() => {
     setInterval(() => {
       const date = new Date();
-      setClockState(date.toLocaleTimeString());
+      setClockState(date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }));
     }, 1000);
   }, []);
 
   return (
-    <div>
-      <h2>{clockState}</h2>
+    <div className='clockContainer'>
+      <p className='clock'>{clockState}</p>
+      <h2>Nashville, TN</h2>
     </div>
   );
 }

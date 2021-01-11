@@ -23,6 +23,10 @@ h2.playerPrefix {
   color: #832121;
 }
 
+h2.messages {
+  font-size: 60px;
+}
+
 h3 {
   color: #011013;
   font-size: 2em;
@@ -49,7 +53,8 @@ h3 {
   height: 183px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  align-items: center;
+  /* justify-content: space-between; */
 }
 
 .logosContainer {
@@ -68,8 +73,7 @@ h3 {
   align-items: center;
   width: 1880px;
   height: 680px;
-  margin: 17px 20px;
-  padding-top: 30px;
+  margin: 20px;
   /* background-color: cornflowerblue; */
   /* opacity: 80%; */
 }
@@ -79,7 +83,14 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 35px;
+  margin-top: 33px;
+}
+
+.clockContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 4em 1em 5em;
 }
 
 .loadingAndError {
@@ -121,6 +132,13 @@ h3 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.clock {
+  margin: 0;
+  font-size: 80px;
+  font-weight: 900;
+  color: #f6f6f6;
 }
 
 .scoreWin {
