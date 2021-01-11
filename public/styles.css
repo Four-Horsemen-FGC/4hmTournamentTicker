@@ -18,6 +18,11 @@ h2 {
   margin: 0;
 }
 
+h2.playerPrefix {
+  margin-right: .3em;
+  color: #832121;
+}
+
 h3 {
   color: #011013;
   font-size: 2em;
@@ -32,6 +37,14 @@ h3 {
 }
 
 .headerContainer {
+  width: 1920px;
+  height: 183px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.footerContainer {
   width: 1920px;
   height: 183px;
   display: flex;
@@ -102,6 +115,12 @@ h3 {
   display: flex;
   justify-content: space-between;
   margin: 15px 40px 0px 30px;
+}
+
+.playerWithOrg {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .scoreWin {

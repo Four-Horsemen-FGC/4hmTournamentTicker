@@ -19,7 +19,10 @@ query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
         identifier
         slots {
           entrant {
-            name
+            participants{
+              prefix
+              gamerTag
+            }
           }
           standing {
             stats {
@@ -51,10 +54,10 @@ function MatchesContainer() {
 
   const queryResult = data.event.sets.nodes;
 
-  console.log(queryResult);
+  // console.log(queryResult);
 
   queryResult.map(node => {
-    console.log(node);
+    // console.log(node);
     setsArray.push(<SetContainer key={keygen++} node={node} />);
   });
 
