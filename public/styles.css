@@ -8,7 +8,6 @@ h1 {
   font-weight: bolder;
   padding-top: 20px;
   color: #f6f6f6;
-
 }
 
 h2 {
@@ -36,13 +35,14 @@ h3 {
 .mainContainer {
   width: 1920px;
   height: 1080px;
+  margin: 0;
   background-image: url('bg_grain+grad+overlay_1920x1080.png');
   background-color: black;
 }
 
 .headerContainer {
   width: 1920px;
-  height: 183px;
+  height: 180px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -50,7 +50,7 @@ h3 {
 
 .footerContainer {
   width: 1920px;
-  height: 183px;
+  height: 180px;
   display: flex;
   flex-direction: row;
   align-items: center;
