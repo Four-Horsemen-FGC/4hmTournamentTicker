@@ -19,7 +19,7 @@ h2 {
 
 h2.playerPrefix {
   margin-right: .3em;
-  color: #832121;
+  color: #e0282f;
 }
 
 h2.messages {
@@ -137,7 +137,7 @@ h3 {
 .clock {
   margin: 0;
   font-size: 80px;
-  font-weight: 900;
+  font-weight: bolder;
   color: #f6f6f6;
 }
 
