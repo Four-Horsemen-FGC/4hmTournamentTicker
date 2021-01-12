@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import style from '../../public/styles.css';
-import fortressLogo from '../../public/4HM_fortress_logo_171x144.png';
-import typoGraphicLogo from '../../public/4HM_typographic_logo_283x128.png';
+
+import fortressLogo from '../assets/images/4HM_fortress_logo_171x144.png';
+import typoGraphicLogo from '../assets/images/4HM_typographic_logo_283x128.png';
 
 class Logos extends Component {
   render() {

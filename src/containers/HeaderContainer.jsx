@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import style from '../../public/styles.css';
 import Logos from '../components/Logos';
-import eventLogo from '../../public/36logo_408x165.png';
+import eventLogo from '../assets/images/36logo_408x165.png';
 
 class HeaderContainer extends Component {
   render() {

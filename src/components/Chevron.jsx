@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import styles from '../../public/styles.css';
+import React from 'react';
 
 function Chevron(props) {
   return (

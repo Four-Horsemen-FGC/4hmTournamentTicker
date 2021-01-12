@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import style from '../../public/styles.css';
 import SetContainer from './SetContainer';
 import { useQuery, gql } from '@apollo/client';
 

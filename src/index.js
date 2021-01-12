@@ -1,8 +1,11 @@
 import React from 'react';
 import { render } from 'react-dom';
-import MainContainer from './containers/MainContainer.jsx';
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+
+import MainContainer from './containers/MainContainer.jsx';
+import reportWebVitals from './reportWebVitals';
+import './assets/index.css';
 
 const httpLink = createHttpLink({
   uri: 'https://api.smash.gg/gql/alpha',
@@ -30,29 +33,9 @@ const App = () => {
   );
 };
 
+render(<App />, document.querySelector('#root'));
 
-
-render(<App />, document.getElementById('root'));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import background from "../public/bg_grain+grad+overlay_1920x1080.png";
-
-// const root = document.getElementById('root');
-// const mainImage = document.createElement('img');
-
-// mainImage.src = background;
-// console.log('wingus');
-// root.appendChild(mainImage);
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
