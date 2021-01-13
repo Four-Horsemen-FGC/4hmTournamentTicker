@@ -8,7 +8,7 @@ class HeaderContainer extends Component {
       <div className='headerContainer'>
         <Logos />
         <img src={eventLogo} />
-        <h1>Latest Results</h1>
+        <h1>Latest results</h1>
       </div>
     );
   }

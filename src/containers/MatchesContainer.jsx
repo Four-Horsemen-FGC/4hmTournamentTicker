@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import SetContainer from './SetContainer';
 import { useQuery, gql } from '@apollo/client';
 
+import Top8Match from '../components/Top8Match';
+
 const MATCH_RESULTS = gql`
 query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
   event (id: $eventId) {
@@ -64,6 +66,7 @@ function MatchesContainer() {
   return (
     <div className='matchesContainer'>
       {setsArray}
+      {/* <Top8Match /> */}
     </div>
   );
 
