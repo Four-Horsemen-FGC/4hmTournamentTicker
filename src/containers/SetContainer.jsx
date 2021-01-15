@@ -1,5 +1,5 @@
 import React from 'react';
-import Chevron from '../components/Chevron';
+import Chevron from '../components/Chevron/Chevron';
 import Set from '../components/Set';
 
 
@@ -11,16 +11,5 @@ function SetContainer(props) {
     </div>
   );
 }
-
-// class SetContainer extends Component {
-//   render() {
-//     return (
-//       <div className='setContainer'>
-//         <Chevron />
-//         <Set />;
-//       </div>
-//     );
-//   }
-// }
 
 export default SetContainer;

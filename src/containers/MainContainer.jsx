@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import HeaderContainer from './HeaderContainer';
 import MatchesContainer from './MatchesContainer';
 import FooterContainer from './FooterContainer';
 
 
-class MainContainer extends Component {
-  render() {
+const MainContainer = () => {
     return (
       <div className='mainContainer'>
-        <HeaderContainer />
+        <HeaderContainer heading='Latest Results'/>
         <MatchesContainer />
         <FooterContainer />
       </div>
     );
-  }
+
 };
 
 export default MainContainer;

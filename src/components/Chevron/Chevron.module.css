@@ -1,0 +1,33 @@
+.chevron {
+  /* position: absolute;
+  top: -25px;
+  width: 64px;
+  height: 56px;
+  background-image: url("../../assets/images/arrow_64x56.png"); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -3.1vh;
+  width: 2.6vw;
+  height: 2.8vh;
+  background-color: #f6f6f6;
+}
+
+.chevron::after {
+  position: absolute;
+  top: 2.8vh;
+  content: "";
+  border-style: solid;
+  border-color: #f6f6f6 transparent transparent transparent;
+  border-width: 1.6vh 1.3vw 0 1.3vw;
+}
+
+.identifier {
+  z-index: 2;
+  position: absolute;
+  top: 0.08vh;
+  margin: 0 auto;
+  font-size: 1.8vmax;
+  color: #011013;
+}

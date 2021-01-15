@@ -1,25 +1,24 @@
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 h1 {
   font-size: 60px;
   font-weight: bolder;
-  padding-top: 20px;
   color: #f6f6f6;
 }
 
 h2 {
   z-index: 3;
-  font-size: 40px;
-  font-weight: bolder;
+  font-size: 2.2vmax;
+  font-weight: 500;
   color: #f6f6f6;
   margin: 0;
 }
 
 h2.playerPrefix {
-  margin-right: .3em;
+  margin-right: 0.3em;
   color: #e0282f;
 }
 
@@ -35,42 +34,45 @@ h2.top8 {
 
 h2.top8Org {
   color: #e0282f;
-  margin-right: .4vw;
+  margin-right: 0.4vw;
 }
 
 h2.top8Score {
   font-size: 2vmax;
 }
 
-h3 {
+/* h3 {
   color: #011013;
   font-size: 2em;
   margin: 0px 3px 0px 0px;
-}
+} */
 
 .mainContainer {
-  width: 1920px;
-  height: 1080px;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
-  background-image: url('./images/bg_grain+grad+overlay_1920x1080.png');
+  /* background-image: url("./images/bg_grain+grad+overlay_1920x1080.png"); */
+  /* background-size: 100% 100%; */
   background-color: black;
 }
 
 .headerContainer {
-  width: 1920px;
-  height: 180px;
+  width: 100%;
+  height: 15%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  background-color: rgb(3, 252, 198, 0.3);
 }
 
 .footerContainer {
-  width: 1920px;
-  height: 180px;
+  width: 100%;
+  height: 15%;
   display: flex;
   flex-direction: row;
   align-items: center;
   /* justify-content: space-between; */
+  background-color: rgb(210, 3, 252, 0.3);
 }
 
 .logosContainer {
@@ -83,15 +85,22 @@ h3 {
 }
 
 .matchesContainer {
+  width: 100%;
+  height: 70%;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  width: 1880px;
-  height: 680px;
-  margin: 20px;
-  /* background-color: cornflowerblue; */
-  /* opacity: 80%; */
+  background-color: rgb(3, 211, 252, 0.3);
+}
+
+.matchesGrid {
+  width: 85%;
+  height: 85%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  gap: 7% 3%;
+  justify-content: space-between;
 }
 
 .setContainer {
@@ -99,14 +108,14 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 33px;
+  /* margin: 0.5vh 0; */
 }
 
 .clockContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 4em 1em 5em;
+  /* margin: 0 4em 1em 5em; */
 }
 
 .loadingAndError {
@@ -119,21 +128,23 @@ h3 {
   margin-right: 0px;
 }
 
-.chevron {
+/* .chevron {
   position: absolute;
   display: flex;
   justify-content: center;
   width: 64px;
   height: 56px;
   top: -25px;
-  background-image: url('./images/arrow_64x56.png');
-}
+  background-image: url("./images/arrow_64x56.png");
+} */
 
 .set {
   display: flex;
   flex-direction: column;
-  width: 836px;
-  height: 132px;
+  justify-content: space-evenly;
+  align-content: center;
+  width: 100%;
+  height: 100%;
   border-radius: 25px;
   background-color: rgb(21, 21, 21, 0.5);
 }
@@ -141,11 +152,11 @@ h3 {
 .upperScoreHolder {
   position: absolute;
   right: -4.5vw;
-  top: -.9vh;
+  top: -0.9vh;
   z-index: 0;
   height: 7.5vw;
   width: 9vw;
-  background-color: #D11818;
+  background-color: #d11818;
   border-radius: 100px / 80px;
 }
 
@@ -156,8 +167,7 @@ h3 {
 .top8Score {
   position: absolute;
   left: 2.5vw;
-  top: 1.5vh
-  
+  top: 1.5vh;
 }
 
 .top8Entrant {
@@ -170,7 +180,7 @@ h3 {
 .upperTop8 {
   overflow: hidden;
   position: relative;
-  margin: 4px 0px;
+  /* margin: 4px 0px; */
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -191,7 +201,8 @@ h3 {
 .entrant {
   display: flex;
   justify-content: space-between;
-  margin: 15px 40px 0px 30px;
+  margin: 0 2em;
+  /* margin: 15px 40px 0px 30px; */
 }
 
 .playerWithOrg {
@@ -209,8 +220,10 @@ h3 {
 
 .scoreWin {
   display: flex;
-  width: 45px;
-  height: 44px;
+  justify-content: center;
+  align-items: center;
+  width: 2.5vmax;
+  height: 2.5vmax;
   background-color: #06254b;
   justify-content: center;
 }
@@ -223,6 +236,6 @@ h3 {
   /* justify-content: center; */
 }
 
-.spacer{
+.spacer {
   width: 45px;
 }

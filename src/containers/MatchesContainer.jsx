@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import SetContainer from './SetContainer';
 import { useQuery, gql } from '@apollo/client';
 
@@ -41,7 +41,6 @@ query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
 
 function MatchesContainer() {
   let keygen = 1;
-  const setsArray = [];
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     variables: { eventId: 543706, page: 1, perPage: 8 },
   });
@@ -51,39 +50,23 @@ function MatchesContainer() {
       <p className='loadingAndError'>Loading ...</p>;
     </div>
   );
-  if (error) return <p className='loadingAndError'>Error Boi ${error.message}</p>;
 
-  const queryResult = data.event.sets.nodes;
+  if (error) <p className='loadingAndError'>Error Boi ${error.message}</p>;
 
-  // console.log(queryResult);
-
-  queryResult.map(node => {
-    // console.log(node);
-    setsArray.push(<SetContainer key={keygen++} node={node} />);
-  });
+  const queryResult = data.event.sets.nodes.map(
+    node => <SetContainer key={keygen++} node={node} />
+  );
 
 
   return (
     <div className='matchesContainer'>
-      {setsArray}
+        <div className='matchesGrid'>
+          {queryResult}
+        </div>
       {/* <Top8Match /> */}
     </div>
   );
 
 }
-
-
-
-// class MatchesContainer extends Component {
-//   render() {
-//     return (
-//       <div className='matchesContainer'>
-//         <SetContainer />
-//       </div>
-//     );
-//   }
-// }
-
-
 
 export default MatchesContainer;
