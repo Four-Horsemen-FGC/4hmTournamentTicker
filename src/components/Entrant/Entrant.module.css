@@ -1,0 +1,25 @@
+.playerWithOrg {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.playerPrefix {
+  margin-right: 0.3em;
+  color: #e0282f;
+}
+
+.entrant {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 2.2vw;
+  /* margin: 15px 40px 0px 30px; */
+}
+
+h2 {
+  z-index: 3;
+  font-size: 2.2vmax;
+  font-weight: 500;
+  color: #f6f6f6;
+  margin: 0;
+}

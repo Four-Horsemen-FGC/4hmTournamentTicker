@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import MainContainer from './containers/MainContainer.jsx';
+import MainContainer from './containers/MainContainer/MainContainer';
 import reportWebVitals from './reportWebVitals';
 import './assets/index.css';
 

@@ -1,0 +1,13 @@
+.clockContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin: 0 4em 1em 5em; */
+}
+
+.clock {
+  margin: 0;
+  font-size: 80px;
+  font-weight: bolder;
+  color: #f6f6f6;
+}

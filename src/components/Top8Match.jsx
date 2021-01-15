@@ -1,5 +1,4 @@
 import React from "react";
-import Entrant from "./Entrant";
 
 function top8Match(props) {
   return (

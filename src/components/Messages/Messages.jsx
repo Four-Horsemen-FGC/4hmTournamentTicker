@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styles from './Messages.module.css'
 
 function Messages() {
   const [messageState, setMessageState] = useState(0);
@@ -21,7 +22,7 @@ function Messages() {
 
   return (
     <div>
-      <h2 className='messages'>{messages[(messageState % messages.length)]}</h2>
+      <h2 className={styles.messages}>{messages[(messageState % messages.length)]}</h2>
     </div>
   );
 }

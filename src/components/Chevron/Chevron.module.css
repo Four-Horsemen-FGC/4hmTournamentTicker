@@ -1,9 +1,4 @@
 .chevron {
-  /* position: absolute;
-  top: -25px;
-  width: 64px;
-  height: 56px;
-  background-image: url("../../assets/images/arrow_64x56.png"); */
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,5 +1,6 @@
 import React from 'react';
-import Entrant from './Entrant';
+import Entrant from '../Entrant/Entrant.jsx';
+import styles from './Set.module.css';
 
 
 function Set(props) {
@@ -13,7 +14,7 @@ function Set(props) {
   };
 
   return (
-    <div className='set'>
+    <div className={styles.set}>
       <Entrant prefix={entrantOne.prefix} name={entrantOne.gamerTag} score={scoreOne} outcome={winOrLose(scoreOne, scoreTwo)} />
       <Entrant prefix={entrantTwo.prefix} name={entrantTwo.gamerTag} score={scoreTwo} outcome={winOrLose(scoreTwo, scoreOne)} />
     </div>

@@ -1,0 +1,10 @@
+.set {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+  padding: 1% 0 0 0;
+  border-radius: 25px;
+  background-color: rgb(21, 21, 21, 0.5);
+}

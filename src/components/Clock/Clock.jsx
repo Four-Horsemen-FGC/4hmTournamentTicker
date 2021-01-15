@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styles from './Clock.module.css';
 
 function Clock() {
   const [clockState, setClockState] = useState();
@@ -11,8 +12,8 @@ function Clock() {
   }, []);
 
   return (
-    <div className='clockContainer'>
-      <p className='clock'>{clockState}</p>
+    <div className={styles.clockContainer}>
+      <p className={styles.clock}>{clockState}</p>
       <h2>Nashville, TN</h2>
     </div>
   );

@@ -1,0 +1,15 @@
+.logosContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.headerLogo1 {
+  width: auto;
+  height: 80%;
+}
+
+.headerLogo2 {
+  width: auto;
+  height: 80%;
+}
