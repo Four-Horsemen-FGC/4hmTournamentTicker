@@ -14,7 +14,7 @@ function Clock() {
   return (
     <div className={styles.clockContainer}>
       <p className={styles.clock}>{clockState}</p>
-      <h2>Nashville, TN</h2>
+      <h2 className={styles.h2}>Nashville, TN</h2>
     </div>
   );
 }

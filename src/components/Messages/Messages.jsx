@@ -13,15 +13,15 @@ function Messages() {
 
   const messages = [
     'Buy a shirt, will ya? FGCFour.myteespring.com/',
-    'suh dud',
-    'hori mori dayo',
-    'KURIMIBURIJUHH'
+    'Follow all our hawt asses on twitter @FgcFour',
+    'Beyblades are wack as FUCK homie',
+    "They don't think it be like it is... but it do"
   ];
 
 
 
   return (
-    <div>
+    <div className={styles.flex}>
       <h2 className={styles.messages}>{messages[(messageState % messages.length)]}</h2>
     </div>
   );

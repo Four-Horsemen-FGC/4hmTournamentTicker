@@ -1,3 +1,11 @@
+.flex {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+}
+
 .messages {
-  font-size: 60px;
+  margin-left: 60px;
+  font-weight: 700;
+  font-size: 3vw;
 }

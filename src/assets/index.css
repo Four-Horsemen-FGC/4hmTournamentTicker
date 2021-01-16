@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
+  box-sizing: border-box;
 }
 
 /* h2 {
@@ -26,14 +27,14 @@ h2.top8Score {
   font-size: 2vmax;
 } */
 
-.mainContainer {
+/* .mainContainer {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   margin: 0;
   background-color: black;
-}
+} */
 
 .top8Score {
   position: absolute;
