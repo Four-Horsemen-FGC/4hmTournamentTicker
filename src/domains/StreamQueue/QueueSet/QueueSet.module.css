@@ -1,0 +1,64 @@
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  /* border: 1px solid orange; */
+}
+
+.playerOne,
+.playerTwo {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  margin-right: -2.8vw;
+  width: 100%;
+  /* box-sizing: border-box; */
+  display: flex;
+  justify-content: center;
+  padding: 5vh 4vw;
+  background-color: rgba(97, 97, 97, 0.5);
+  background: linear-gradient(
+    90deg,
+    rgba(131, 33, 33, 0.6) 0%,
+    rgba(97, 97, 97, 0.7) 40%,
+    rgba(97, 97, 97, 0.7) 100%
+  );
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.playerTwo {
+  /* justify-content: flex-end; */
+  margin-right: 0;
+  margin-left: -2.8vw;
+  background: linear-gradient(
+    90deg,
+    rgba(97, 97, 97, 0.7) 0%,
+    rgba(97, 97, 97, 0.7) 60%,
+    rgba(6, 37, 75, 0.6) 100%
+  );
+  clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.gamerTag,
+.orgName {
+  font-size: 2.5vw;
+}
+
+.orgName {
+  margin-right: 1vw;
+  color: orange;
+}
+
+.vs {
+  z-index: 3;
+  margin: 0;
+  font-weight: 700;
+  color: #f6f6f6;
+  font-size: 3vw;
+}

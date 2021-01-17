@@ -4,6 +4,8 @@ import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@ap
 import { setContext } from '@apollo/client/link/context';
 
 import MainContainer from './containers/MainContainer/MainContainer';
+import StreamQueue from './domains/StreamQueue/StreamQueue';
+import Top8 from './domains/Top8/Top8';
 import reportWebVitals from './reportWebVitals';
 import './assets/index.css';
 
@@ -28,7 +30,9 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <MainContainer />
+      {/* <MainContainer /> */}
+      {/* <StreamQueue /> */}
+      <Top8 />
     </ApolloProvider>
   );
 };

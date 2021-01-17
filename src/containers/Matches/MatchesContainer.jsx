@@ -39,7 +39,6 @@ query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
 `;
 
 function MatchesContainer() {
-  let keygen = 1;
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     variables: { eventId: 543706, page: 1, perPage: 8 },
   });
@@ -53,7 +52,7 @@ function MatchesContainer() {
   if (error) <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
   const queryResult = data.event.sets.nodes.map(
-    node => <SetContainer key={keygen++} node={node} />
+    (node, idx) => <SetContainer key={idx} node={node} />
   );
 
 
