@@ -10,10 +10,10 @@ import { Redirect } from 'react-router-dom';
 const MainContainer = () => {
   // const [redirect, setRedirect] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => <Redirect to='upcoming-matches'/>, 10000);
-    // setTimeout(() => console.log('redirecting'), 10000);
-  })
+  // useEffect(() => {
+  //   setTimeout(() => <Redirect to='upcoming-matches'/>, 10000);
+  //   // setTimeout(() => console.log('redirecting'), 10000);
+  // })
 
     return (
       <div className={styles.mainContainer}>

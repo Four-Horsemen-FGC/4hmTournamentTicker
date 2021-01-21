@@ -13,8 +13,6 @@ function top8Match(props) {
       : element
   }
 
-  // const gamertag = props.name;
-
   const containerTag = (
     <div className={styles.tag}>
       <h3 className={styles.h3Margin}>{props.tag}</h3>
@@ -37,7 +35,7 @@ function top8Match(props) {
       <div className={styles.lowerTop8}>
         <div className={styles.top8Entrant}>
           <h2 className={styles.top8Org}>{concatName(props.p2Org)}</h2>
-          <h2 className={styles.top8}>{concatName(props.p2Name, 17)}</h2>
+          <h2 className={styles.top8}>{concatName(props.p2Name, 15)}</h2>
         </div>
         <div className={styles.lowerScoreHolder}>
           <h2 className={styles.top8Score}>{props.p2Score}</h2>
