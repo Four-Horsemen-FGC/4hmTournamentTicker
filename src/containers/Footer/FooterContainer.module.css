@@ -6,8 +6,9 @@
   flex-direction: row;
   align-items: center;
   padding: 10px 60px 20px;
-  border-top: 0.18vw solid #deb402;
+  border-top: 0.18vw solid #f5c410;
   background-image: url(../../assets/images/bg_footer_1920x180.jpg);
   background-size: 100% 100%;
+  overflow: hidden;
   /* background-color: rgb(210, 3, 252, 0.3); */
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
@@ -30,9 +31,27 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      {/* <MainContainer /> */}
-      {/* <StreamQueue /> */}
-      <Top8 />
+      <Router>
+        <Switch>
+
+          <Route path='/upcoming-matches'>
+            <StreamQueue />
+          </Route>
+
+          <Route path='/top-eight'>
+            <Top8 />
+          </Route>
+
+          <Route path='/recent-matches'>
+            <MainContainer /> 
+          </Route>
+
+          <Route path='/'>
+            <Redirect to='/recent-matches'/> 
+          </Route>
+
+        </Switch>
+      </Router>
     </ApolloProvider>
   );
 };

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Messages.module.css'
+import styles from './Messages.module.css';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 function Messages() {
-  const [messageState, setMessageState] = useState(0);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setMessageState((previousMessageState) => previousMessageState + 1);
+      setIndex((previousMessageState) => previousMessageState + 1);
     }, 8000);
     return () => clearInterval(interval);
   });
 
   const messages = [
-    'Buy a shirt, will ya? FGCFour.myteespring.com/',
+    'Check out our store! FGCFour.myteespring.com/',
     'Follow all our hawt asses on twitter @FgcFour',
     'Beyblades are wack as FUCK homie',
     "They don't think it be like it is... but it do"
@@ -22,7 +23,17 @@ function Messages() {
 
   return (
     <div className={styles.flex}>
-      <h2 className={styles.messages}>{messages[(messageState % messages.length)]}</h2>
+      <SwitchTransition>
+        <CSSTransition
+          key={messages[(index % messages.length)]}
+          timeout={300}
+          classNames="fade"
+        >
+          <h2 className={styles.messages}>
+            {messages[(index % messages.length)]}
+          </h2>
+        </CSSTransition>
+      </SwitchTransition>
     </div>
   );
 }

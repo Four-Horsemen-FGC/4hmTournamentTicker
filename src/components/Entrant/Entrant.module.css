@@ -6,7 +6,7 @@
 
 .playerPrefix {
   margin-right: 0.3em;
-  color: #e0282f;
+  color: #f5c410;
 }
 
 .entrant {
@@ -18,7 +18,7 @@
 
 h2 {
   z-index: 3;
-  font-size: 2.2vmax;
+  font-size: 4vmin;
   font-weight: 500;
   color: #f6f6f6;
   margin: 0;
