@@ -38,12 +38,12 @@ query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
 `;
 
 const winnerBracketName = ['Winners Semi-Final', 'Winners Final', 'Grand Final'];
-const loserBracketName = ['Losers Round 2', 'Losers Quarter-Final', 'Losers Semi-Final', 'Losers Final']
+const loserBracketName = ['Losers Round 2', 'Losers Quarter-Final', 'Losers Semi-Final', 'Losers Final'];
 const winnerStyles = [styles.winner1, styles.winner2, styles.winner3, styles.winner4];
 const loserStyles = [styles.loser1, styles.loser2, styles.loser3, styles.loser4, styles.loser5, styles.loser6];
 const winnerBracketArray = [];
 const loserBracketArray = [];
-const bracketDictionary = {}
+const bracketDictionary = {};
 
 const createComponents = (section, style, sectionArray, count = 0) => {
   
