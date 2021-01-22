@@ -1,0 +1,14 @@
+.scoreWin,
+.scoreLose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.3vmax;
+  height: 2.3vmax;
+  background-color: #06254b;
+  justify-content: center;
+}
+
+.scoreLose {
+  background-color: #832121;
+}

@@ -1,0 +1,32 @@
+.flex {
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.messages {
+  margin-left: 60px;
+  font-weight: 700;
+  font-size: 3vw;
+}
+
+/* .fade-enter .messages {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.fade-enter-active .messages {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-exit .messages {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-exit-active .messages {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.fade-enter-active .messages,
+.fade-exit-active .messages {
+  transition: opacity 500ms, transform 500ms;
+} */
