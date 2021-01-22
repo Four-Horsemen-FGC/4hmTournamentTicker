@@ -355,11 +355,62 @@ const datum = [
   }
 ]
 
-// const winners = datum.filter((element) => element.fullRoundText.includes('Winners') || element.fullRoundText.includes('Grand'));
-const winnerBracketName = ['Winners Semi-Final', 'Winners Final', 'Grand Final'];
-const loserBracketName = ['Losers Round 2', 'Losers Quarter-Final', 'Losers Semi-Final', 'Losers Final']
-const winnerStyles = [styles.winner1, styles.winner2, styles.winner3, styles.winner4];
-const loserStyles = [styles.loser1, styles.loser2, styles.loser3, styles.loser4, styles.loser5, styles.loser6];
+const winnersBracketNames = ['Winners Semi-Final', 'Winners Final', 'Grand Final'];
+const losersBracketNames = ['Losers Round 2', 'Losers Quarter-Final', 'Losers Semi-Final', 'Losers Final']
+const winnersStyles = [styles.winner1, styles.winner2, styles.winner3, styles.winner4];
+const losersStyles = [styles.loser1, styles.loser2, styles.loser3, styles.loser4, styles.loser5, styles.loser6];
+
+const games = datum.map(object => {
+  return {
+    id: object.identifier,
+    round: object.fullRoundText,
+    p1Org: object.slots[0].entrant ? object.slots[0].entrant.participants[0].prefix : null,
+    p2Org: object.slots[1].entrant ? object.slots[1].entrant.participants[0].prefix : null,
+    p1Name: object.slots[0].entrant ? object.slots[0].entrant.participants[0].gamerTag : null,
+    p2Name: object.slots[1].entrant ? object.slots[1].entrant.participants[0].gamerTag : null,
+    p1Score: object.slots[0].standing ? object.slots[0].standing.stats.score.value : null,
+    p2Score: object.slots[1].standing ? object.slots[1].standing.stats.score.value : null,
+  };
+}).sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
+
+let winnersGames = games.filter(game => !game.round.includes("Losers"))
+let losersGames = games.filter(game => game.round.includes("Losers"));
+
+let index = 0;
+winnersGames = winnersGames.map(game => {
+  let winnersGame = { 'game': game, 'style': winnerStyles[index] }
+  index = index < winnerStyles.length - 1 ? index + 1 : index;
+  return winnersGame;
+});
+
+index = 0;
+losersGames = losersGames.map(game => {
+  let losersGame = { 'game': game, 'style': loserStyles[index] }
+  index = index < loserStyles.length - 1 ? index + 1 : index;
+  return losersGame;
+});
+
+const winnersBracket = [];
+const losersBracket = [];
+
+const createComponents = (games, bracket) => {
+  games.forEach(game => {
+    bracket.push(
+      <div className={style[count++]}>
+        <Top8Match
+	  key={`${element} ${outerIdx} ${idx}`}
+	  p1Org = {p1Org}
+	  p2Org = {p2Org}
+	  p1Name = {p1Name}
+	  p2Name = {p2Name}
+	  p1Score = {p1Score}
+	  p2Score = {p2Score}
+	  tag={idx === 0 ? element : null}/>
+      </div>
+    );
+  });
+};
+
 const winnerBracketArray = [];
 const loserBracketArray = [];
 const bracketDictionary = {}
@@ -372,7 +423,7 @@ datum.forEach(element => {
 })
 
 const createComponents = (section, style, sectionArray, count = 0) => {
-  
+
   section.forEach((element, outerIdx) => {
 
     bracketDictionary[element].forEach((innerElement, idx) => {
@@ -382,34 +433,34 @@ const createComponents = (section, style, sectionArray, count = 0) => {
       let p2Org = innerElement[1].entrant ? innerElement[1].entrant.participants[0] ? innerElement[1].entrant.participants[0].prefix : '' : ''
       let p2Name = innerElement[1].entrant ? innerElement[1].entrant.participants[0] ? innerElement[1].entrant.participants[0].gamerTag : 'TBD' : 'TBD'
       let p2Score = innerElement[1].standing ? innerElement[1].standing.stats.score.value ? innerElement[1].standing.stats.score.value : 0 : 0
-  
+
       // console.log(`
       //   player one: ${innerElement[0].entrant ? innerElement[0].entrant.participants[0] ? innerElement[0].entrant.participants[0].gamerTag : 'TBD' : 'TBD'}
       //   player one score: ${innerElement[0].standing ? innerElement[0].standing.stats.score.value ? innerElement[0].standing.stats.score.value : 0 : 0}
       //   player two: ${innerElement[1].entrant ? innerElement[1].entrant.participants[0] ? innerElement[1].entrant.participants[0].gamerTag : 'TBD' : 'TBD'}
       //   player two score: ${innerElement[1].standing ? innerElement[1].standing.stats.score.value ? innerElement[1].standing.stats.score.value : 0 : 0}
       // `);
-  
+
       sectionArray.push(
-        <div className={style[count++]}>  
-          <Top8Match 
+        <div className={style[count++]}>
+          <Top8Match
             key={`${element} ${outerIdx} ${idx}`}
             p1Org = {p1Org}
             p2Org = {p2Org}
             p1Name = {p1Name}
-            p2Name = {p2Name}  
+            p2Name = {p2Name}
             p1Score = {p1Score}
             p2Score = {p2Score}
             tag={idx === 0 ? element : null}/>
         </div>
       );
-  
+
     })
   })
 }
 
-createComponents(winnerBracketName, winnerStyles, winnerBracketArray);
-createComponents(loserBracketName, loserStyles, loserBracketArray);
+createComponents(winnerBracketNames, winnerStyles, winnerBracketArray);
+createComponents(loserBracketNames, loserStyles, loserBracketArray);
 
 // winnerBracketName.forEach((element, outerIdx) => {
 
@@ -429,13 +480,13 @@ createComponents(loserBracketName, loserStyles, loserBracketArray);
 //     // `);
 
 //     winnerBracketArray.push(
-//       <div className={winnerStyles[winnerCount++]}>  
-//         <Top8Match 
+//       <div className={winnerStyles[winnerCount++]}>
+//         <Top8Match
 //           key={`${element} ${outerIdx} ${idx}`}
 //           p1Org = {p1Org}
 //           p2Org = {p2Org}
 //           p1Name = {p1Name}
-//           p2Name = {p2Name}  
+//           p2Name = {p2Name}
 //           p1Score = {p1Score}
 //           p2Score = {p2Score}
 //           tag={idx === 0 ? element : null}/>
@@ -450,9 +501,9 @@ const Top8Body = (props) => {
     <div className={styles.flex}>
       <div className={styles.winnerBracket}>
         <div className={styles.grid}>
-          {winnerBracketArray}   
+          {winnerBracketArray}
           {/* <div className={styles.winner1}>
-            
+
           </div>
           <div className={styles.winner2}>
             <Top8Match name='prop2'/>
@@ -467,7 +518,7 @@ const Top8Body = (props) => {
       </div>
 
       <div className={styles.loserBracket}>
-        <div className={styles.gridLoser}> 
+        <div className={styles.gridLoser}>
           {loserBracketArray}
           {/* <div className={styles.loser1}>
             <Top8Match name='prop1' tag='Round 1'/>
