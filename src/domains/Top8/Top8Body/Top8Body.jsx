@@ -51,8 +51,10 @@ const losersStyles = [
 const Top8Body = (props) => {
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { eventId: 543706, page: 1, perPage: 11 },
+    variables: { eventId: 547481, page: 1, perPage: 15 },
   });
+
+  // 543706
 
   if (loading)
     return (
@@ -63,7 +65,9 @@ const Top8Body = (props) => {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  const games = flattenQueryData(data.event.sets.nodes);
+  const games = flattenQueryData(data.event.sets.nodes).sort((gameA, gameB) =>
+    gameA.id.localeCompare(gameB.id)
+  );
 
   let winnersGames = games.filter((game) => !game.matchName.includes("Losers"));
   let losersGames = games.filter((game) => game.matchName.includes("Losers"));

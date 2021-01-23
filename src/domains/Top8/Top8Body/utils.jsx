@@ -2,20 +2,18 @@ import React from "react";
 import Top8Match from "../Top8Match/Top8Match";
 
 export const flattenQueryData = (data) => {
-  return data
-    .map((object) => {
-      return {
-        id: object.identifier,
-        matchName: object.fullRoundText,
-        p1Org: object.slots[0].entrant?.participants[0].prefix ?? null,
-        p2Org: object.slots[1].entrant?.participants[0].prefix ?? null,
-        p1Name: object.slots[0].entrant?.participants[0].gamerTag ?? "TBD",
-        p2Name: object.slots[1].entrant?.participants[0].gamerTag ?? "TBD",
-        p1Score: object.slots[0].standing?.stats.score.value ?? 0,
-        p2Score: object.slots[1].standing?.stats.score.value ?? 0,
-      };
-    })
-    .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
+  return data.map((object) => {
+    return {
+      id: object.identifier,
+      matchName: object.fullRoundText,
+      p1Org: object.slots[0].entrant?.participants[0].prefix ?? null,
+      p2Org: object.slots[1].entrant?.participants[0].prefix ?? null,
+      p1Name: object.slots[0].entrant?.participants[0].gamerTag ?? "TBD",
+      p2Name: object.slots[1].entrant?.participants[0].gamerTag ?? "TBD",
+      p1Score: object.slots[0].standing?.stats.score.value ?? 0,
+      p2Score: object.slots[1].standing?.stats.score.value ?? 0,
+    };
+  });
 };
 
 export const createComponents = (games) => {

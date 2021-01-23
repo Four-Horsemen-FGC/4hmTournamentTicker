@@ -1,17 +1,12 @@
-import React from 'react';
-import styles from './QueueSet.module.css';
+import React from "react";
+import styles from "./QueueSet.module.css";
 
-const QueueSet = (props) => {
-
-  console.log(props.node.slots)
-  const playerOne = props.node.slots[0].entrant.participants[0]
-  const playerTwo = props.node.slots[1].entrant.participants[0]
-
+const QueueSet = ({ p1Name, p1Org, p2Name, p2Org, ...props }) => {
   return (
     <div className={styles.flex}>
       <div className={styles.playerOne}>
-        <h2 className={styles.orgName}>{playerOne.prefix}</h2>
-        <h2 className={styles.gamerTag}>{playerOne.gamerTag}</h2>
+        <h2 className={styles.orgName}>{p1Org}</h2>
+        <h2 className={styles.gamerTag}>{p1Name}</h2>
       </div>
 
       <div className={styles.vs}>
@@ -19,12 +14,11 @@ const QueueSet = (props) => {
       </div>
 
       <div className={styles.playerTwo}>
-        <h2 className={styles.orgName}>{playerTwo.prefix}</h2>
-        <h2 className={styles.gamerTag}>{playerTwo.gamerTag}</h2>
+        <h2 className={styles.orgName}>{p2Org}</h2>
+        <h2 className={styles.gamerTag}>{p2Name}</h2>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
 export default QueueSet;
