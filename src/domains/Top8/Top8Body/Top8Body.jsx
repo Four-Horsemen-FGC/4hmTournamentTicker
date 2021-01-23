@@ -65,54 +65,66 @@ const Top8Body = (props) => {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  const games = flattenQueryData(data.event.sets.nodes).sort((gameA, gameB) =>
+  let matchStyles = {
+    'Winners Semi-Final': [styles.winnersSemiFinal1, styles.winnersSemiFinal2],
+    'Winners Final': [styles.winnersFinal],
+    'Grand Final': [styles.grandFinal],
+    'Grand Final Reset': [styles.grandFinal],
+    'Losers Round': [styles.losersRound1, styles.losersRound2],
+    'Losers Quarter-Final': [styles.losersQuarterFinal1, styles.losersQuarterFinal2],
+    'Losers Semi-Final': [styles.losersSemiFinal],
+    'Losers Final': [styles.losersFinal]
+  };
+
+  const games = flattenQueryData(data.event.sets.nodes)
+  .filter(game => game.p1Name !== null || game.p2Name !== null)
+  .sort((gameA, gameB) =>
     gameA.id.localeCompare(gameB.id)
   );
 
-  let winnersGames = games.filter((game) => !game.matchName.includes("Losers"));
+  let winnersGames = games.filter((game) => !game.matchName.includes("Losers") && matchStyles[game.matchName]);
   let losersGames = games.filter((game) => game.matchName.includes("Losers"));
+  let losersRoundName = losersGames.filter(game => game.matchName.includes('Losers Round')).pop().matchName;
+  losersGames = losersGames.filter(game => {
+    return !game.matchName.includes('Losers Round') || game.matchName === losersRoundName;
+  });
+  matchStyles[losersRoundName] = matchStyles['Losers Round'];
 
-  if (
-    winnersGames[winnersGames.length - 1].p1Name === "TBD" &&
-    winnersGames[winnersGames.length - 1].p2Name === "TBD"
-  ) {
-    winnersGames.pop();
+  if (winnersGames[winnersGames.length - 1].matchName === 'Grand Final Reset') {
+    winnersGames = winnersGames.filter(game => game.matchName !== 'Grand Final');
   }
 
-  let seen = {};
-  let index = 0;
-
-  winnersGames = winnersGames.map((game) => {
-    if (seen[game.matchName]) {
-      game.matchName = null;
-    } else {
-      seen[game.matchName] = true;
-    }
-    let winnersGame = { game, style: winnersStyles[index] };
-    index = index < winnersStyles.length - 1 ? index + 1 : index;
-    return winnersGame;
+  const winnersMatches = winnersGames.map((game) => {
+    return { game, style: matchStyles[game.matchName].shift() };
+  });
+  const losersMatches = losersGames.map((game) => {
+    return { game, style: matchStyles[game.matchName].shift() };
   });
 
-  index = 0;
-  losersGames = losersGames.map((game) => {
-    if (seen[game.matchName]) {
-      game.matchName = null;
+  let seen = {};
+  winnersMatches.forEach(match => {
+    if (seen[match.game.matchName]) {
+      match.game.matchName = null;
     } else {
-      seen[game.matchName] = true;
+      seen[match.game.matchName] = true;
     }
-    let losersGame = { game, style: losersStyles[index] };
-    index = index < losersStyles.length - 1 ? index + 1 : index;
-    return losersGame;
+  });
+  losersMatches.forEach(match => {
+    if (seen[match.game.matchName]) {
+      match.game.matchName = null;
+    } else {
+      seen[match.game.matchName] = true;
+    }
   });
 
   return (
     <div className={styles.flex}>
       <div className={styles.winnerBracket}>
-        <div className={styles.grid}>{createComponents(winnersGames)}</div>
+        <div className={styles.grid}>{createComponents(winnersMatches)}</div>
       </div>
 
       <div className={styles.loserBracket}>
-        <div className={styles.gridLoser}>{createComponents(losersGames)}</div>
+        <div className={styles.gridLoser}>{createComponents(losersMatches)}</div>
       </div>
     </div>
   );

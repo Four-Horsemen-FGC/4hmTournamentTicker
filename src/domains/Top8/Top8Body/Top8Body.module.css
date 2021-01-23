@@ -41,54 +41,54 @@
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2 1fr);
 }
-.winner1 {
+.winnersSemiFinal1 {
   grid-column-start: 1;
   grid-column-end: 2;
 }
-.winner2 {
+.winnersSemiFinal2 {
   grid-column-start: 1;
   grid-column-end: 2;
 }
-.winner3 {
+.winnersFinal {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 3;
 }
-.winner4 {
+.grandFinal {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
 }
 
-.loser1 {
+.losersRound1 {
   grid-column-start: 1;
   grid-column-end: 2;
 }
-.loser2 {
+.losersRound2 {
   grid-column-start: 1;
   grid-column-end: 2;
 }
-.loser3 {
+.losersQuarterFinal1 {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 2;
 }
-.loser4 {
+.losersQuarterFinal2 {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 3;
 }
-.loser5 {
+.losersSemiFinal {
   grid-column-start: 3;
   grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
 }
-.loser6 {
+.losersFinal {
   grid-column-start: 4;
   grid-column-end: 5;
   grid-row-start: 1;
