@@ -32,3 +32,13 @@ export const createComponents = (games) => {
     </div>
   ));
 };
+
+export const concatName = (element, size = 5) => {
+  return element && element.length > size
+    ? element.slice(0, size) + "..."
+    : element;
+};
+
+export const parseScore = (score) => {
+  return score < 0 ? "D" : score;
+};

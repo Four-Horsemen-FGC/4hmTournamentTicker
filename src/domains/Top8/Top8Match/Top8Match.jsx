@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Top8Match.module.css";
+import { concatName, parseScore } from "../Top8Body/utils";
 
 function top8Match({
   matchName,
@@ -10,12 +11,6 @@ function top8Match({
   p1Name,
   p2Name,
 }) {
-  const concatName = (element, size = 5) => {
-    return element && element.length > size
-      ? element.slice(0, size) + "..."
-      : element;
-  };
-
   const containerTag = (
     <div className={styles.tag}>
       <h3 className={styles.h3Margin}>{matchName}</h3>
@@ -31,7 +26,7 @@ function top8Match({
           <h2 className={styles.top8}>{concatName(p1Name, 15)}</h2>
         </div>
         <div className={styles.upperScoreHolder}>
-          <h2 className={styles.top8Score}>{p1Score}</h2>
+          <h2 className={styles.top8Score}>{parseScore(p1Score)}</h2>
         </div>
       </div>
 
@@ -41,7 +36,7 @@ function top8Match({
           <h2 className={styles.top8}>{concatName(p2Name, 15)}</h2>
         </div>
         <div className={styles.lowerScoreHolder}>
-          <h2 className={styles.top8Score}>{p2Score}</h2>
+          <h2 className={styles.top8Score}>{parseScore(p2Score)}</h2>
         </div>
       </div>
     </div>

@@ -12,13 +12,14 @@
 .entrant {
   display: flex;
   justify-content: space-between;
-  margin: 0 2.2vw;
+  box-sizing: border-box;
+  padding: 0.35vh 30px;
   /* margin: 15px 40px 0px 30px; */
 }
 
 h2 {
   z-index: 3;
-  font-size: 4vmin;
+  font-size: 3.7vmin;
   font-weight: 500;
   color: #f6f6f6;
   margin: 0;

@@ -12,3 +12,7 @@
 .scoreLose {
   background-color: #832121;
 }
+
+.score {
+  font-size: 3.2vmin;
+}

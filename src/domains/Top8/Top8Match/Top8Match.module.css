@@ -54,6 +54,7 @@
 .top8Score {
   font-size: 1.6vmax;
   position: absolute;
+  text-align: center;
   left: 1.7vw;
   top: 1.7vh;
 }

@@ -1,4 +1,21 @@
+.chevronWrap {
+  filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.6));
+}
+
 .chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  box-sizing: border-box;
+  top: -3.2vh;
+  width: 5vmin;
+  height: 4.8vmin;
+  background-color: #f6f6f6;
+  clip-path: polygon(100% 0, 100% 60%, 50% 100%, 0 60%, 0 0);
+}
+
+/* .chevron {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,22 +24,23 @@
   width: 2.6vw;
   height: 2.8vh;
   background-color: #f6f6f6;
-}
+} */
 
-.chevron::after {
+/* .chevron::after {
   position: absolute;
   top: 2.8vh;
   content: "";
   border-style: solid;
   border-color: #f6f6f6 transparent transparent transparent;
   border-width: 1.6vh 1.3vw 0 1.3vw;
-}
+} */
 
 .identifier {
   z-index: 2;
   position: absolute;
-  top: 0.08vh;
   margin: 0 auto;
-  font-size: 3vmin;
+  top: -0.2vmin;
+  padding: 0.4vw 1vh;
+  font-size: 2.5vmin;
   color: #011013;
 }

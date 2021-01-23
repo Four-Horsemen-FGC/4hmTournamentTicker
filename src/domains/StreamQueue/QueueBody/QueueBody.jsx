@@ -29,24 +29,28 @@ const MATCH_RESULTS = gql`
 `;
 
 const flattenQuery = (data) => {
-  return data.map((element) => {
-    return {
-      id: element.id,
-      p1Org: element.slots[0].entrant?.participants[0].prefix ?? null,
-      p2Org: element.slots[1].entrant?.participants[0].prefix ?? null,
-      p1Name: element.slots[0].entrant?.participants[0].gamerTag ?? null,
-      p2Name: element.slots[1].entrant?.participants[0].gamerTag ?? null,
-    };
-  });
+  if (data.length === 0) {
+    return data;
+  } else {
+    return data.map((element) => {
+      return {
+        id: element.id,
+        p1Org: element.slots[0].entrant?.participants[0].prefix ?? null,
+        p2Org: element.slots[1].entrant?.participants[0].prefix ?? null,
+        p1Name: element.slots[0].entrant?.participants[0].gamerTag ?? null,
+        p2Name: element.slots[1].entrant?.participants[0].gamerTag ?? null,
+      };
+    });
+  }
 };
+
+//"tournament/4hm-test-tournament"
+//"tournament/the-cloud-series-east-1"
 
 function QueueBody() {
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     variables: { tourneySlug: "tournament/the-cloud-series-east-1" },
   });
-
-  // "tournament/4hm-test-tournament"
-  //"tournament/the-cloud-series-east-1"
 
   if (loading) {
     console.log("fetching data from smash.gg ... hang about boi");
@@ -58,7 +62,9 @@ function QueueBody() {
     return <p>an error has occured, please try again.</p>;
   }
 
-  const upcomingMatches = flattenQuery(data.tournament.streamQueue[0].sets)
+  const upcomingMatches = flattenQuery(
+    data.tournament?.streamQueue?.[0].sets ?? []
+  )
     .filter((element) => element.p1Name !== null && element.p2Name !== null)
     .map((element) => {
       return (
@@ -71,10 +77,13 @@ function QueueBody() {
         />
       );
     });
+  const noUpcomingMatches = <h2>No Upcoming Matches :-(</h2>;
 
   return (
     <div className={styles.QueueBodyFlex}>
-      <div className={styles.flex}>{upcomingMatches}</div>
+      <div className={styles.flex}>
+        {!upcomingMatches.length ? noUpcomingMatches : upcomingMatches}
+      </div>
     </div>
   );
 }
