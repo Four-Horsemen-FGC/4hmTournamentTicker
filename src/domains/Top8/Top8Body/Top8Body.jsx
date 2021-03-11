@@ -3,12 +3,40 @@ import styles from "./Top8Body.module.css";
 import { useQuery, gql } from "@apollo/client";
 import { createComponents, flattenQueryData } from "./utils";
 
+// const MATCH_RESULTS = gql`
+//   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
+//     event(id: $eventId) {
+//       id
+//       name
+//       sets(sortType: MAGIC, page: $page, perPage: $perPage) {
+//         nodes {
+//           fullRoundText
+//           identifier
+//           slots {
+//             entrant {
+//               participants {
+//                 prefix
+//                 gamerTag
+//               }
+//             }
+//             standing {
+//               stats {
+//                 score {
+//                   value
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 const MATCH_RESULTS = gql`
-  query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
-    event(id: $eventId) {
-      id
-      name
-      sets(sortType: MAGIC, page: $page, perPage: $perPage) {
+  query PhaseQuery {
+    phase(id: 895224) {
+      sets {
         nodes {
           fullRoundText
           identifier
@@ -35,11 +63,12 @@ const MATCH_RESULTS = gql`
 
 // 4hm test tournament eventId: 543706
 // cloud's eventId: 547481
+// frostyFaustings MVC3: 543159
 
 const Top8Body = (props) => {
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { eventId: 547481, page: 1, perPage: 15 },
+    variables: { eventId: 543159, page: 1, perPage: 15 },
   });
 
   if (loading)
@@ -65,7 +94,8 @@ const Top8Body = (props) => {
     "Losers Final": [styles.losersFinal],
   };
 
-  const games = flattenQueryData(data.event.sets.nodes)
+  console.log(data.phase.sets.nodes);
+  const games = flattenQueryData(data.phase.sets.nodes)
     // .filter((game) => game.p1Name !== null || game.p2Name !== null)
     .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
 
@@ -86,9 +116,9 @@ const Top8Body = (props) => {
 
   let lastWinnersMatch = winnersGames[winnersGames.length - 1];
   if (
-    lastWinnersMatch.matchName === "Grand Final Reset" &&
-    lastWinnersMatch.p1Name !== "TBD" &&
-    lastWinnersMatch.p2Name !== "TBD"
+    lastWinnersMatch?.matchName === "Grand Final Reset" &&
+    lastWinnersMatch?.p1Name !== "TBD" &&
+    lastWinnersMatch?.p2Name !== "TBD"
   ) {
     winnersGames = winnersGames.filter(
       (game) => game.matchName !== "Grand Final"

@@ -46,10 +46,11 @@ const flattenQuery = (data) => {
 
 //"tournament/4hm-test-tournament"
 //"tournament/the-cloud-series-east-1"
+// frosty faustings: frosty-faustings-xiii-2021-online
 
 function QueueBody() {
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { tourneySlug: "tournament/the-cloud-series-east-1" },
+    variables: { tourneySlug: "frosty-faustings-xiii-2021-online" },
   });
 
   if (loading) {
