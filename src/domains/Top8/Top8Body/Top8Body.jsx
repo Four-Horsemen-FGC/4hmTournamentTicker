@@ -94,7 +94,7 @@ const Top8Body = (props) => {
     "Losers Final": [styles.losersFinal],
   };
 
-  console.log(data.phase.sets.nodes);
+  // console.log(data.phase.sets.nodes);
   const games = flattenQueryData(data.phase.sets.nodes)
     // .filter((game) => game.p1Name !== null || game.p2Name !== null)
     .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
