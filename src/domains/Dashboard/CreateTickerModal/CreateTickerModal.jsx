@@ -11,15 +11,20 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
-  Spacer,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItemOption,
+  MenuOptionGroup,
+  Text,
 } from "@chakra-ui/react";
 
+import { DeleteIcon, ChevronDownIcon } from "@chakra-ui/icons";
+
 import React, { useState } from "react";
-import TournamentEvent from "../TournamentEvent/TournamentEvent";
 import { useLazyQuery, gql } from "@apollo/client";
+// import MessageInput from "../MessageInput.jsx/MessageInput";
 
 const TOURNAMENT_EVENTS = gql`
   query getTournamentEvents($tourneySlug: String!) {
@@ -48,9 +53,11 @@ const slugifyTournamentName = (TourneyName) => {
 function BasicUsage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tournamentName, setTournamentName] = useState("");
+  const [scrollingMessages, setScrollingMessages] = useState([{ value: "" }]);
   const [getEventsQuery, { loading, data }] = useLazyQuery(TOURNAMENT_EVENTS, {
     variables: { tourneySlug: slugifyTournamentName(tournamentName) },
   });
+
   const [dbPayload, setDbPayload] = useState({
     tournamentName: null,
     location: null,
@@ -60,19 +67,79 @@ function BasicUsage() {
     messages: [],
   });
 
+  const parseMessages = (messages) => {
+    let messagesPayload = [];
+    scrollingMessages.forEach((element) => {
+      if (element.value) {
+        messagesPayload.push(element.value);
+      }
+    });
+    setDbPayload({
+      ...dbPayload,
+      messages: messagesPayload,
+    });
+    console.log(dbPayload);
+    return;
+  };
+
+  const addInput = () => {
+    let values = [...scrollingMessages];
+    values.push({ value: "" });
+    setScrollingMessages(values);
+  };
+
+  const removeInput = (i) => {
+    let values = [...scrollingMessages];
+    values.splice(i, 1);
+    setScrollingMessages(values);
+  };
+
+  const handleChange = (i, e) => {
+    let values = [...scrollingMessages];
+    values[i].value = e.target.value;
+    setScrollingMessages(values);
+  };
+
+  const createScrollingMessages = (messages) => {
+    return messages.map((element, idx) => {
+      return (
+        <Flex key={`flex${idx}`} alignItems="center">
+          <Input
+            mt={2}
+            mb={2}
+            id={`input${idx}`}
+            maxLength={50}
+            placeholder="enter message"
+            value={element.value}
+            key={`input${idx}`}
+            onChange={(e) => handleChange(idx, e)}
+          />
+          <DeleteIcon
+            _hover={{ color: "tomato" }}
+            key={`deleteIcon${idx}`}
+            ml={3}
+            as="button"
+            onClick={() => removeInput(idx)}
+          ></DeleteIcon>
+        </Flex>
+      );
+    });
+  };
+
   const createTournamentEvents = (queryData) => {
     let tournament = queryData.name;
     let location = queryData.city ?? "online";
     let events = queryData.events;
 
-    return events.map((element) => {
-      let top8Id = element.phases[element.phases.length - 1].id;
+    return events.map((element, idx) => {
+      let top8id = element.phases[element.phases.length - 1].id;
       return (
-        <TournamentEvent
-          key={element.id}
+        <MenuItemOption
+          key={`${element.name}${idx}`}
+          value={idx}
           id={element.id}
           name={element.name}
-          top8Id={top8Id}
+          top8id={top8id}
           onClick={() => {
             setDbPayload({
               ...dbPayload,
@@ -80,22 +147,30 @@ function BasicUsage() {
               location: location,
               eventName: element.name,
               eventId: element.id,
-              top8Id: top8Id,
+              top8Id: top8id,
             });
           }}
-        />
+        >
+          {element.name}
+        </MenuItemOption>
       );
     });
   };
 
-  console.log(`tournamentName: ${tournamentName}`);
-  console.log(dbPayload);
+  // console.log(`tournamentName: ${tournamentName}`);
+  // console.log(dbPayload);
+  // console.table(scrollingMessages);
 
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <Button onClick={onOpen}>Create new ticker</Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        closeOnOverlayClick={false}
+        size="3xl"
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create New Ticker</ModalHeader>
@@ -104,11 +179,10 @@ function BasicUsage() {
             <Flex justifyContent="center">
               <FormControl id="tourney-name">
                 <Input
-                  placeholder="Tournament name"
+                  placeholder={tournamentName || "tournament name"}
                   onChange={(e) => setTournamentName(e.target.value)}
                 />
               </FormControl>
-              <Spacer />
               <Button
                 colorScheme="purple"
                 ml={1}
@@ -117,10 +191,47 @@ function BasicUsage() {
                 Get events
               </Button>
             </Flex>
+
+            <Flex alignItems="center" mt={3}>
+              {loading ? (
+                <p>getting tournament events... </p>
+              ) : data?.tournament?.events ? (
+                <Menu closeOnSelect={true}>
+                  <MenuButton as={Button} colorScheme="blue">
+                    Select Event <ChevronDownIcon />
+                  </MenuButton>
+
+                  <MenuList minWidth="240px">
+                    <MenuOptionGroup type="radio">
+                      {createTournamentEvents(data.tournament)}
+                    </MenuOptionGroup>
+                  </MenuList>
+                </Menu>
+              ) : null}
+              <Text ml={3} isTruncated>
+                {dbPayload.eventName}
+              </Text>
+            </Flex>
+            <FormControl mt={10}>
+              <FormLabel>Scrolling Messages</FormLabel>
+              {createScrollingMessages(scrollingMessages)}
+              {/* <AddIcon
+                _hover={{ color: "green" }}
+                as="button"
+                onClick={() => addInput()}
+                // focusable={true}
+              ></AddIcon> */}
+              <Button onClick={() => addInput()}>Add Message</Button>
+            </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button variant="solid">Submit</Button>
+            <Button
+              variant="solid"
+              onClick={() => parseMessages(scrollingMessages)}
+            >
+              Submit
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
