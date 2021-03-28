@@ -67,9 +67,9 @@ function BasicUsage() {
     messages: [],
   });
 
-  const parseMessages = (messages) => {
+  const parseMessagesAndSend = (messages) => {
     let messagesPayload = [];
-    scrollingMessages.forEach((element) => {
+    messages.forEach((element) => {
       if (element.value) {
         messagesPayload.push(element.value);
       }
@@ -78,8 +78,7 @@ function BasicUsage() {
       ...dbPayload,
       messages: messagesPayload,
     });
-    console.log(dbPayload);
-    return;
+    onClose();
   };
 
   const addInput = () => {
@@ -158,7 +157,7 @@ function BasicUsage() {
   };
 
   // console.log(`tournamentName: ${tournamentName}`);
-  // console.log(dbPayload);
+  console.log(dbPayload);
   // console.table(scrollingMessages);
 
   return (
@@ -228,7 +227,7 @@ function BasicUsage() {
           <ModalFooter>
             <Button
               variant="solid"
-              onClick={() => parseMessages(scrollingMessages)}
+              onClick={() => parseMessagesAndSend(scrollingMessages)}
             >
               Submit
             </Button>
