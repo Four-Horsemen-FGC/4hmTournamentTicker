@@ -6,6 +6,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 import {
   ApolloClient,
   ApolloProvider,
@@ -61,29 +62,31 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <Switch>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
+      <ChakraProvider>
+        <Router>
+          <Switch>
+            <Route path="/dashboard">
+              <Dashboard />
+            </Route>
 
-          <Route path="/upcoming-matches">
-            <StreamQueue />
-          </Route>
+            <Route path="/upcoming-matches">
+              <StreamQueue />
+            </Route>
 
-          <Route path="/top-eight">
-            <Top8 />
-          </Route>
+            <Route path="/top-eight">
+              <Top8 />
+            </Route>
 
-          <Route path="/recent-matches">
-            <MainContainer />
-          </Route>
+            <Route path="/recent-matches">
+              <MainContainer />
+            </Route>
 
-          <Route path="/">
-            <Redirect to="/dashboard" />
-          </Route>
-        </Switch>
-      </Router>
+            <Route path="/">
+              <Redirect to="/dashboard" />
+            </Route>
+          </Switch>
+        </Router>
+      </ChakraProvider>
     </ApolloProvider>
   );
 };

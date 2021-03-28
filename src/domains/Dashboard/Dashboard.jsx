@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styles from "./Dashboard.module.css";
 import TournamentEvent from "./TournamentEvent/TournamentEvent";
+import CreateTickerModal from "./CreateTickerModal/CreateTickerModal";
 import { useLazyQuery, gql } from "@apollo/client";
 
 const TOURNAMENT_EVENTS = gql`
   query getTournamentEvents($tourneySlug: String!) {
     tournament(slug: $tourneySlug) {
+      city
+      name
       events {
         id
         name
@@ -26,8 +29,12 @@ const slugifyTournamentName = (TourneyName) => {
 };
 
 const Dashboard = () => {
+  const [tournamentName, setTournamentName] = useState("");
+  const [getEventsQuery, { loading, data }] = useLazyQuery(TOURNAMENT_EVENTS, {
+    variables: { tourneySlug: slugifyTournamentName(tournamentName) },
+  });
   const [dbPayload, setDbPayload] = useState({
-    tourneyName: null,
+    tournamentName: null,
     location: null,
     eventName: null,
     eventId: null,
@@ -35,50 +42,41 @@ const Dashboard = () => {
     messages: [],
   });
 
-  console.log(dbPayload);
+  const createTournamentEvents = (queryData) => {
+    let tournament = queryData.name;
+    let location = queryData.city ?? "online";
+    let events = queryData.events;
 
-  const [tournamentEvents, setTournamentEvents] = useState([]);
-  const [getEventsQuery, { called, loading, data }] = useLazyQuery(
-    TOURNAMENT_EVENTS
-  );
-
-  const getTournamentEvents = () => {
-    let slug = document.getElementById("getTourneyEvents");
-    let formattedSlug = slugifyTournamentName(slug.value);
-
-    getEventsQuery({ variables: { tourneySlug: formattedSlug } });
-
-    if (loading) return <p>loading</p>;
-    if (!called) return;
-
-    let formattedEvents = data.tournament.events.map((element, idx) => {
+    return events.map((element) => {
       let top8Id = element.phases[element.phases.length - 1].id;
       return (
-        <div>
-          <TournamentEvent
-            id={element.id}
-            name={element.name}
-            top8Id={top8Id}
-            onClick={() => {
-              setDbPayload({
-                ...dbPayload,
-                tourneyName: formattedSlug,
-                eventName: element.name,
-                eventId: element.id,
-                top8Id: top8Id,
-              });
-            }}
-          />
-        </div>
+        <TournamentEvent
+          key={element.id}
+          id={element.id}
+          name={element.name}
+          top8Id={top8Id}
+          onClick={() => {
+            setDbPayload({
+              ...dbPayload,
+              tournamentName: tournament,
+              location: location,
+              eventName: element.name,
+              eventId: element.id,
+              top8Id: top8Id,
+            });
+          }}
+        />
       );
     });
-    return formattedEvents;
   };
+
+  console.log(`tournamentName: ${tournamentName}`);
+  console.log(dbPayload);
 
   return (
     <div className={styles.flex}>
       <div className={styles.flex}>
-        <h1 className={styles.titleColor}>suh dud</h1>
+        <h1 className={styles.titleColor}>Create New Ticker</h1>
         <div>
           <form id="mainForm" className={`${styles.flex} ${styles.form}`}>
             <div className={styles.formFlex}></div>
@@ -86,27 +84,29 @@ const Dashboard = () => {
             <input
               className={styles.input}
               type="text"
+              onChange={(e) => setTournamentName(e.target.value)}
               placeholder="Tournament Name"
               id="getTourneyEvents"
             ></input>
           </form>
-          <div className={styles.flex}>{tournamentEvents}</div>
+          <div className={styles.flex}>
+            {loading ? (
+              <p>getting tournament events... </p>
+            ) : data?.tournament?.events ? (
+              createTournamentEvents(data.tournament)
+            ) : null}
+          </div>
           <div className={styles.flex}>
             <button
               className={styles.getTourneyButton}
-              onClick={() => setTournamentEvents(getTournamentEvents())}
+              onClick={() => {
+                getEventsQuery();
+              }}
             >
               Get events
             </button>
           </div>
-
           <form id="mainForm" className={`${styles.flex} ${styles.form}`}>
-            <label className={styles.formLabel}>Tournament Location</label>
-            <input
-              className={styles.input}
-              type="text"
-              placeholder="Location (city/state)"
-            ></input>
             <label className={styles.formLabel}>Scrolling Messages</label>
             <input
               className={styles.input}
@@ -134,6 +134,7 @@ const Dashboard = () => {
               placeholder="Add Message"
             ></input>
           </form>
+          <CreateTickerModal />
         </div>
       </div>
     </div>
@@ -142,23 +143,37 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-// const createMessage = (message = undefined) => {
-//   if (message === undefined) return;
-//   let form = document.getElementById("messagesForm");
-//   let count = form.children.length;
-//   let input = document.createElement("input");
-//   input.id = `message${count}`;
-//   input.placeholder = "Enter Message";
-//   input.maxLength = 50;
+// const getTournamentEvents = () => {
+//   let slug = document.getElementById("getTourneyEvents");
+//   let formattedSlug = slugifyTournamentName(slug.value);
 
-//   let deleteButton = document.createElement("button");
-//   deleteButton.className = "del";
-//   deleteButton.innerText = "X";
-//   deleteButton.addEventListener("click", () => {
-//     let messageToDelete = input.id;
-//     form.removeChild(messageToDelete);
+//   getEventsQuery({ variables: { tourneySlug: formattedSlug } });
+
+//   if (loading) return <p>loading</p>;
+//   if (!called) return console.log("notCalled");
+
+//   let formattedEvents = data.tournament.events.map((element) => {
+//     let top8Id = element.phases[element.phases.length - 1].id;
+//     return (
+//       <div>
+//         <TournamentEvent
+//           key={element.id}
+//           id={element.id}
+//           name={element.name}
+//           top8Id={top8Id}
+//           // clickFunction={() => console.log("suh dud")}
+//           clickFunction={() => {
+//             setDbPayload({
+//               ...dbPayload,
+//               tourneyName: formattedSlug,
+//               eventName: element.name,
+//               eventId: element.id,
+//               top8Id: top8Id,
+//             });
+//           }}
+//         />
+//       </div>
+//     );
 //   });
-
-//   form.appendChild(input);
-//   form.appendChild(deleteButton);
+//   return formattedEvents;
 // };

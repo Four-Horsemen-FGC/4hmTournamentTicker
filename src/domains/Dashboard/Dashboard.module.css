@@ -2,10 +2,15 @@
   color: black;
 }
 
-.flex {
+.flex,
+.flex-row {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.flexRow {
+  flex-direction: row;
 }
 
 .del {
@@ -18,7 +23,7 @@
 }
 
 .input {
-  width: 300px;
+  width: 600px;
   text-align: center;
   margin-bottom: 10px;
 }
