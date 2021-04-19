@@ -1,0 +1,10 @@
+.eventButton {
+  box-sizing: border-box;
+  padding: 6px;
+  margin: 3px;
+  border-radius: 5px;
+  font-size: 1em;
+  background-color: #3b81db;
+  color: whitesmoke;
+  border: 0px;
+}

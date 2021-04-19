@@ -35,10 +35,11 @@ const MATCH_RESULTS = gql`
 
 // 4hm test tournament eventId: 543706
 // cloud's eventId: 547481
+// frostyFaustings MVC3: 543159
 
 function MatchesContainer() {
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { eventId: 547481, page: 1, perPage: 8 },
+    variables: { eventId: 543159, page: 1, perPage: 8 },
   });
 
   if (loading)
