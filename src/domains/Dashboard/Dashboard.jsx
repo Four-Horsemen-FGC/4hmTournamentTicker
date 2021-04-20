@@ -16,23 +16,25 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "../../index.js"; // importing firestore instance from index.js. is there a more elegant way to get the database in children components????
-
-const signOut = () => {
-  return firebase.auth().signOut();
-};
+import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
   const [user, loading] = useAuthState(firebase.auth());
+  const { push } = useHistory();
 
+  const signOut = () => {
+    push("/");
+    firebase.auth().signOut();
+  };
   //can get the document that has the corresponding userId but having trouble updating document (see CreateTickerModal.jsx)
-  const [value] = useCollectionData(
-    db.collection("users").where("uid", "==", `${user.uid}`),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
+  // const [value] = useCollectionData(
+  //   db.collection("users").where("uid", "==", `${user?.uid}`),
+  //   {
+  //     snapshotListenOptions: { includeMetadataChanges: true },
+  //   }
+  // );
 
-  console.log(value);
+  // console.log(value);
 
   if (loading) {
     return <Heading>Loading stuff...</Heading>;

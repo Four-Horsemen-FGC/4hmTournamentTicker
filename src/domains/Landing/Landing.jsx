@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import firebase from "firebase/app";
 import { useHistory } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -6,6 +6,7 @@ import "firebase/auth";
 import { Image, Center, Button, Flex, Text } from "@chakra-ui/react";
 import typoGraphicLogo from "../../assets/images/Logo_4HM_typo.svg";
 // import styles from "./Landing.module.css";
+import { db } from "../../index";
 
 const signInWithGoogle = () => {
   const firebaseAuthProvider = new firebase.auth.GoogleAuthProvider();
@@ -14,10 +15,25 @@ const signInWithGoogle = () => {
 
 const Landing = () => {
   const [user] = useAuthState(firebase.auth());
-  const { push } = useHistory();
-  if (user) {
-    push("/dashboard");
-  }
+  const history = useHistory();
+
+  useEffect(() => {
+    // IIFE
+    (async () => {
+      if (user) {
+        const dbUser = await db.collection("users").doc(user.uid).get();
+
+        console.log(`dbUser.exists`, dbUser.exists);
+        if (!dbUser.exists) {
+          await db
+            .collection("users")
+            .doc(user.uid)
+            .set({ events: [], activeEvent: {} });
+        }
+        history.push("/dashboard");
+      }
+    })();
+  }, [user, history]);
 
   return (
     <Center h="100%">

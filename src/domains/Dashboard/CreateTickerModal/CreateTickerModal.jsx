@@ -23,6 +23,7 @@ import {
 import { DeleteIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 import React, { useState } from "react";
+import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { useLazyQuery, gql } from "@apollo/client";
@@ -78,24 +79,35 @@ function BasicUsage({ uid, ...props }) {
   });
 
   const parseMessagesAndSend = async (messages, userId) => {
+    console.log(messages);
     let messagesPayload = [];
     messages.forEach((element) => {
       if (element.value) {
         messagesPayload.push(element.value);
       }
     });
+
+    const thing = { ...dbPayload, messages: messagesPayload };
+
+    // If you need messages in state then keep else delete
     setDbPayload({
       ...dbPayload,
       messages: messagesPayload,
     });
 
     // ========== Currently getting an error that update is not a function
-    // await db
-    //   .collection("users")
-    //   .where("uid", "==", `${userId}`)
-    //   .update({
-    //     events: [{ dbPayload }],
-    //   });
+    const collection = await db
+      .collection("users")
+      .doc(userId)
+      // .where("uid", "==", `${userId}`)
+      .update({
+        events: firebase.firestore.FieldValue.arrayUnion({ ...thing }),
+      });
+
+    // const doc = db.collection("users").doc(userId);
+    // collection.update({
+    //   events: [{ ...thing }],
+    // });
     onClose();
   };
 
