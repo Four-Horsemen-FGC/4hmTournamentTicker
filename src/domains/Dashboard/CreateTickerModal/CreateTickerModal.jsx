@@ -23,8 +23,12 @@ import {
 import { DeleteIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 import React, { useState } from "react";
+import "firebase/firestore";
+import "firebase/auth";
 import { useLazyQuery, gql } from "@apollo/client";
 // import MessageInput from "../MessageInput.jsx/MessageInput";
+import { db } from "../../../index.js";
+// import { useCollectionData } from "react-firebase-hooks/firestore";
 
 const TOURNAMENT_EVENTS = gql`
   query getTournamentEvents($tourneySlug: String!) {
@@ -50,13 +54,19 @@ const slugifyTournamentName = (TourneyName) => {
   return TourneyName.replace(/(\s|-)+/g, "-").toLowerCase();
 };
 
-function BasicUsage() {
+function BasicUsage({ uid, ...props }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tournamentName, setTournamentName] = useState("");
   const [scrollingMessages, setScrollingMessages] = useState([{ value: "" }]);
   const [getEventsQuery, { loading, data }] = useLazyQuery(TOURNAMENT_EVENTS, {
     variables: { tourneySlug: slugifyTournamentName(tournamentName) },
   });
+  // const [value] = useCollectionData(
+  //   db.collection("users").where("uid", "==", `${uid}`),
+  //   {
+  //     snapshotListenOptions: { includeMetadataChanges: true },
+  //   }
+  // );
 
   const [dbPayload, setDbPayload] = useState({
     tournamentName: null,
@@ -67,7 +77,7 @@ function BasicUsage() {
     messages: [],
   });
 
-  const parseMessagesAndSend = (messages) => {
+  const parseMessagesAndSend = async (messages, userId) => {
     let messagesPayload = [];
     messages.forEach((element) => {
       if (element.value) {
@@ -78,6 +88,14 @@ function BasicUsage() {
       ...dbPayload,
       messages: messagesPayload,
     });
+
+    // ========== Currently getting an error that update is not a function
+    // await db
+    //   .collection("users")
+    //   .where("uid", "==", `${userId}`)
+    //   .update({
+    //     events: [{ dbPayload }],
+    //   });
     onClose();
   };
 
@@ -157,7 +175,7 @@ function BasicUsage() {
   };
 
   // console.log(`tournamentName: ${tournamentName}`);
-  console.log(dbPayload);
+  // console.log(dbPayload);
   // console.table(scrollingMessages);
 
   return (
@@ -227,7 +245,7 @@ function BasicUsage() {
           <ModalFooter>
             <Button
               variant="solid"
-              onClick={() => parseMessagesAndSend(scrollingMessages)}
+              onClick={() => parseMessagesAndSend(scrollingMessages, uid)}
             >
               Submit
             </Button>
