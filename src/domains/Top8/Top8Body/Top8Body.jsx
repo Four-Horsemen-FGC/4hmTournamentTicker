@@ -5,40 +5,12 @@ import { createComponents, flattenQueryData } from "./utils";
 import { useActiveEventOnce } from "../../../hooks";
 import { Spinner, Center } from "@chakra-ui/react";
 
-// const MATCH_RESULTS = gql`
-//   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
-//     event(id: $eventId) {
-//       id
-//       name
-//       sets(sortType: MAGIC, page: $page, perPage: $perPage) {
-//         nodes {
-//           fullRoundText
-//           identifier
-//           slots {
-//             entrant {
-//               participants {
-//                 prefix
-//                 gamerTag
-//               }
-//             }
-//             standing {
-//               stats {
-//                 score {
-//                   value
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
 const MATCH_RESULTS = gql`
-  query PhaseQuery($top8Id: ID!) {
-    phase(id: $top8Id) {
-      sets {
+  query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
+    event(id: $eventId) {
+      id
+      name
+      sets(sortType: MAGIC, page: $page, perPage: $perPage) {
         nodes {
           fullRoundText
           identifier
@@ -63,23 +35,51 @@ const MATCH_RESULTS = gql`
   }
 `;
 
+// const MATCH_RESULTS = gql`
+//   query PhaseQuery($top8Id: ID!) {
+//     phase(id: $top8Id) {
+//       sets {
+//         nodes {
+//           fullRoundText
+//           identifier
+//           slots {
+//             entrant {
+//               participants {
+//                 prefix
+//                 gamerTag
+//               }
+//             }
+//             standing {
+//               stats {
+//                 score {
+//                   value
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 // 4hm test tournament eventId: 543706
 // cloud's eventId: 547481
 // frostyFaustings MVC3: 543159
 
 const Top8Body = (props) => {
-  const { top8Id } = useActiveEventOnce() || {};
-  console.log(`activeEvent`, top8Id);
+  const { eventId } = useActiveEventOnce() || {};
+  console.log(`eventId`, eventId);
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data, called } = useQuery(MATCH_RESULTS, {
     // variables: { eventId: 543159, page: 1, perPage: 15 },
-    skip: !top8Id,
-    variables: { top8Id },
+    skip: !eventId,
+    variables: { eventId, page: 1, perPage: 15 },
   });
 
   console.log({ loading, error, data, called });
 
-  if (loading || !top8Id)
+  if (loading || !eventId)
     return (
       <Center h="full" w="full">
         <Spinner />
@@ -102,8 +102,10 @@ const Top8Body = (props) => {
     "Losers Final": [styles.losersFinal],
   };
 
-  // console.log(data.phase.sets.nodes);
-  const games = flattenQueryData(data.phase.sets.nodes)
+  console.log(`data`, data);
+
+  console.log(data?.event.sets.nodes);
+  const games = flattenQueryData(data?.event.sets.nodes)
     // .filter((game) => game.p1Name !== null || game.p2Name !== null)
     .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
 
