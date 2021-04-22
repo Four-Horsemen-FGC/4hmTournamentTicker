@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./Top8Body.module.css";
 import { useQuery, gql } from "@apollo/client";
 import { createComponents, flattenQueryData } from "./utils";
+import { useActiveEventOnce } from "../../../hooks";
+import { Spinner, Center } from "@chakra-ui/react";
 
 // const MATCH_RESULTS = gql`
 //   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -34,8 +36,8 @@ import { createComponents, flattenQueryData } from "./utils";
 // `;
 
 const MATCH_RESULTS = gql`
-  query PhaseQuery {
-    phase(id: 895224) {
+  query PhaseQuery($top8Id: ID!) {
+    phase(id: $top8Id) {
       sets {
         nodes {
           fullRoundText
@@ -66,16 +68,22 @@ const MATCH_RESULTS = gql`
 // frostyFaustings MVC3: 543159
 
 const Top8Body = (props) => {
+  const { top8Id } = useActiveEventOnce() || {};
+  console.log(`activeEvent`, top8Id);
   // invoke useQuery to ping smash.gg for top8 results
-  const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { eventId: 543159, page: 1, perPage: 15 },
+  const { loading, error, data, called } = useQuery(MATCH_RESULTS, {
+    // variables: { eventId: 543159, page: 1, perPage: 15 },
+    skip: !top8Id,
+    variables: { top8Id },
   });
 
-  if (loading)
+  console.log({ loading, error, data, called });
+
+  if (loading || !top8Id)
     return (
-      <div className={styles.matchesContainer}>
-        <p className={styles.loadingAndError}>Loading ...</p>;
-      </div>
+      <Center h="full" w="full">
+        <Spinner />
+      </Center>
     );
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;

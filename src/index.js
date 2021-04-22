@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import {
   ApolloClient,
   ApolloProvider,
@@ -33,6 +33,7 @@ import Top8 from "./domains/Top8/Top8";
 import Landing from "./domains/Landing/Landing";
 import reportWebVitals from "./reportWebVitals";
 import "./assets/index.css";
+import theme from "./theme";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -83,10 +84,6 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
-});
-
-const theme = extendTheme({
-  fonts: { heading: "Roboto", body: "Roboto" },
 });
 
 const App = () => {

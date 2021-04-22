@@ -27,9 +27,9 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { useLazyQuery, gql } from "@apollo/client";
-// import MessageInput from "../MessageInput.jsx/MessageInput";
 import { db } from "../../../index.js";
 // import { useCollectionData } from "react-firebase-hooks/firestore";
+// import MessageInput from "../MessageInput.jsx/MessageInput";
 
 const TOURNAMENT_EVENTS = gql`
   query getTournamentEvents($tourneySlug: String!) {
@@ -39,6 +39,11 @@ const TOURNAMENT_EVENTS = gql`
       events {
         id
         name
+        videogame {
+          images {
+            url
+          }
+        }
         phases {
           id
           name
@@ -62,12 +67,6 @@ function BasicUsage({ uid, ...props }) {
   const [getEventsQuery, { loading, data }] = useLazyQuery(TOURNAMENT_EVENTS, {
     variables: { tourneySlug: slugifyTournamentName(tournamentName) },
   });
-  // const [value] = useCollectionData(
-  //   db.collection("users").where("uid", "==", `${uid}`),
-  //   {
-  //     snapshotListenOptions: { includeMetadataChanges: true },
-  //   }
-  // );
 
   const [dbPayload, setDbPayload] = useState({
     tournamentName: null,
@@ -75,6 +74,7 @@ function BasicUsage({ uid, ...props }) {
     eventName: null,
     eventId: null,
     top8Id: null,
+    imagesurl: null,
     messages: [],
   });
 
@@ -95,19 +95,13 @@ function BasicUsage({ uid, ...props }) {
       messages: messagesPayload,
     });
 
-    // ========== Currently getting an error that update is not a function
-    const collection = await db
+    await db
       .collection("users")
       .doc(userId)
-      // .where("uid", "==", `${userId}`)
       .update({
         events: firebase.firestore.FieldValue.arrayUnion({ ...thing }),
       });
 
-    // const doc = db.collection("users").doc(userId);
-    // collection.update({
-    //   events: [{ ...thing }],
-    // });
     onClose();
   };
 
@@ -162,6 +156,7 @@ function BasicUsage({ uid, ...props }) {
 
     return events.map((element, idx) => {
       let top8id = element.phases[element.phases.length - 1].id;
+      let imageUrl = element?.videogame?.images[0]?.url;
       return (
         <MenuItemOption
           key={`${element.name}${idx}`}
@@ -177,6 +172,7 @@ function BasicUsage({ uid, ...props }) {
               eventName: element.name,
               eventId: element.id,
               top8Id: top8id,
+              imageurl: imageUrl,
             });
           }}
         >
@@ -202,7 +198,9 @@ function BasicUsage({ uid, ...props }) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create New Ticker</ModalHeader>
+          <ModalHeader>
+            Create New Ticker - Frosty Faustings XIII 2021 - Online
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex justifyContent="center">
@@ -244,12 +242,6 @@ function BasicUsage({ uid, ...props }) {
             <FormControl mt={10}>
               <FormLabel>Scrolling Messages</FormLabel>
               {createScrollingMessages(scrollingMessages)}
-              {/* <AddIcon
-                _hover={{ color: "green" }}
-                as="button"
-                onClick={() => addInput()}
-                // focusable={true}
-              ></AddIcon> */}
               <Button onClick={() => addInput()}>Add Message</Button>
             </FormControl>
           </ModalBody>
