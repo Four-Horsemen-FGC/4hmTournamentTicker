@@ -15,28 +15,35 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocumentOnce } from "react-firebase-hooks/firestore";
+import { useDocument } from "react-firebase-hooks/firestore";
 import { db } from "../../index.js"; // importing firestore instance from index.js. is there a more elegant way to get the database in children components????
 import { useHistory } from "react-router-dom";
 import { EventCardList } from "../../components/EventCard";
+import { DashboardLink } from "../../components/Link";
 
 // MVP
 //[X] Create Cards for events created by user
 //[X] ability to set an active event that's being tracked
-//[] get views to pull from active event database
-//[] update center logo and background in views to generations league branding
+//[X] get views to pull from active event database
+//[X] update center logo and background in views to generations league branding
+//[X] link to all the views in dashboard
+//[X] implement password to be able to sign in
 //[] fix multiple renders on page load
-//[] implement password to be able to sign in
 
 // STRETCH GOALS
 //[] implement storage bucket for logos and backgrounds
-//[] spruce up loading states with loading icons
+//[X] spruce up loading states with loading icons
 //[] implement some league tracking functionality <- omega stretch
 
 // QUESTIONS
 //[] write security rules for reading and writing to database?
-//[] host site with firebase?
+//[X] host site with firebase?
 //[] subscription/unsubscribe metrics?
+
+//----------Bugs---------------
+//showstoppers
+
+//minor
 
 const Dashboard = () => {
   // 1. user changes: rerender
@@ -50,27 +57,35 @@ const Dashboard = () => {
 
   // 2. user changes: rerender
   //can get the document that has the corresponding userId but having trouble updating document (see CreateTickerModal.jsx)
-  const [value] = useDocumentOnce(db.doc(`users/${user.uid}`), {
+  const [value] = useDocument(db.doc(`users/${user.uid}`), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
   const events = value?.data().events;
 
-  console.log(`events`, events);
+  // console.log(`events`, events);
 
   if (loading) {
     return <Spinner />;
   }
 
   return (
-    <Box backgroundColor="gray.900" height="full" width="full">
+    <Box backgroundColor="gray.900" height="full" width="full" overflow="auto">
       <HStack px={5} py={5}>
         <Text color={"whiteAlpha.900"} fontSize="3xl">
           Greetings {user?.displayName}
         </Text>
         <Spacer />
+        <HStack px={5} py={5} spacing={3}>
+          <DashboardLink to="/recent-matches">Recent Matches</DashboardLink>
+          <DashboardLink to="/upcoming-matches">Stream Queue</DashboardLink>
+          <DashboardLink to="/top-eight">Top 8</DashboardLink>
+        </HStack>
+        <Spacer />
         <CreateTickerModal uid={user.uid} />
-        <Button onClick={signOut}>Sign out</Button>
+        <Button colorScheme="red" onClick={signOut}>
+          Sign out
+        </Button>
         <Image
           borderRadius="full"
           h={10}

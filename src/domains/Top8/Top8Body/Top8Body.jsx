@@ -74,7 +74,7 @@ const Top8Body = (props) => {
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     // variables: { eventId: 543159, page: 1, perPage: 15 },
     skip: !eventId,
-    variables: { eventId, page: 1, perPage: 15 },
+    variables: { eventId, page: 1, perPage: 12 },
   });
 
   // console.log({ loading, error, data, called });
@@ -113,21 +113,36 @@ const Top8Body = (props) => {
     (game) => !game.matchName.includes("Losers") && matchStyles[game.matchName]
   );
   let losersGames = games.filter((game) => game.matchName.includes("Losers"));
+
+  // const singleLosersRound = () => {
+  //   let count = 0;
+  //   console.log(`losersGames in func`, losersGames);
+  //   losersGames.forEach((game) => {
+  //     if (game.matchName.includes("Losers Round")) {
+  //       count = count + 1;
+  //     }
+  //   });
+  //   console.log(count === 2);
+  //   return count === 2;
+  // };
+
   let losersRoundName = losersGames
     .filter((game) => game.matchName.includes("Losers Round"))
     .pop().matchName;
-
+  // console.log(`losersRoundName`, losersRoundName);
   losersGames = losersGames.filter((game) => {
     return (
       !game.matchName.includes("Losers Round") ||
       game.matchName === losersRoundName
     );
   });
+  // console.log(`losersGames`, losersGames);
 
   matchStyles[losersRoundName] = matchStyles["Losers Round"];
 
   let lastWinnersMatch = winnersGames[winnersGames.length - 1];
   // console.log(`lastWinnersMatch`, lastWinnersMatch);
+
   if (
     lastWinnersMatch?.matchName === "Grand Final Reset" &&
     lastWinnersMatch?.p1Name !== "TBD" &&
@@ -144,8 +159,9 @@ const Top8Body = (props) => {
     return { game, style: matchStyles[game.matchName].shift() };
   });
   const losersMatches = losersGames.map((game) => {
-    // if (game.matchName.includes("Losers Round")) {
-
+    // console.log(`game`, game.matchName);
+    // if (!singleLosersRound()) {
+    //   return { game, style: matchStyles[game.matchName].pop() };
     // }
     return { game, style: matchStyles[game.matchName].shift() };
   });

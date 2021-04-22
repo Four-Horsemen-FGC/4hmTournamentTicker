@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import firebase from "firebase/app";
 import { useHistory } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "firebase/auth";
-import { Image, Center, Button, Flex, Text } from "@chakra-ui/react";
+import { Image, Center, Button, Flex, Text, Input } from "@chakra-ui/react";
 import typoGraphicLogo from "../../assets/images/Logo_4HM_typo.svg";
 // import styles from "./Landing.module.css";
 import { db } from "../../index";
@@ -13,7 +13,10 @@ const signInWithGoogle = () => {
   firebase.auth().signInWithPopup(firebaseAuthProvider);
 };
 
+const a = "Slaypoossafari42069";
+
 const Landing = () => {
+  const [password, setPassword] = useState("");
   const [user] = useAuthState(firebase.auth());
   const history = useHistory();
 
@@ -40,7 +43,19 @@ const Landing = () => {
       <Flex maxW="full" maxH="full" direction={"column"} align="center">
         <Image maxW="70%" src={typoGraphicLogo} alt="4hmLogo"></Image>
         <Text fontSize="5xl">Tournament Ticker</Text>
+        <Input
+          textAlign="center"
+          variant="flushed"
+          maxW="xs"
+          placeholder="enter admin password"
+          type="password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.currentTarget.value);
+          }}
+        ></Input>
         <Button
+          disabled={password !== a}
           colorScheme="blue"
           mt="20px"
           maxW={500}

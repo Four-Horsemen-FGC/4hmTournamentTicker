@@ -18,6 +18,7 @@ import {
   MenuItemOption,
   MenuOptionGroup,
   Text,
+  FormHelperText,
 } from "@chakra-ui/react";
 
 import { DeleteIcon, ChevronDownIcon } from "@chakra-ui/icons";
@@ -65,9 +66,10 @@ function BasicUsage({ uid, ...props }) {
   const [scrollingMessages, setScrollingMessages] = useState([{ value: "" }]);
   const [getEventsQuery, { loading, data }] = useLazyQuery(TOURNAMENT_EVENTS, {
     variables: { tourneySlug: slugifyTournamentName(tournamentName) },
+    fetchPolicy: "no-cache",
   });
 
-  const [dbPayload, setDbPayload] = useState({
+  const initialState = {
     tournamentId: null,
     tournamentName: null,
     location: null,
@@ -76,10 +78,12 @@ function BasicUsage({ uid, ...props }) {
     top8Id: null,
     imageUrl: null,
     messages: [],
-  });
+  };
+
+  const [dbPayload, setDbPayload] = useState(initialState);
 
   const parseMessagesAndSend = async (messages, userId) => {
-    console.log(messages);
+    // console.log(messages);
     let messagesPayload = [];
     messages.forEach((element) => {
       if (element.value) {
@@ -102,6 +106,8 @@ function BasicUsage({ uid, ...props }) {
         events: firebase.firestore.FieldValue.arrayUnion({ ...thing }),
       });
 
+    setDbPayload(initialState);
+    setScrollingMessages([{ value: "" }]);
     onClose();
   };
 
@@ -156,6 +162,7 @@ function BasicUsage({ uid, ...props }) {
     let events = queryData.events;
 
     return events.map((element, idx) => {
+      // console.log(`element.phases`, element.phases);
       let top8id = element.phases[element.phases.length - 1].id;
       let imageUrl = element?.videogame?.images[0]?.url;
       return (
@@ -190,7 +197,9 @@ function BasicUsage({ uid, ...props }) {
 
   return (
     <>
-      <Button onClick={onOpen}>Create new ticker</Button>
+      <Button colorScheme="green" onClick={onOpen}>
+        Create new ticker
+      </Button>
 
       <Modal
         closeOnOverlayClick={false}
@@ -200,9 +209,7 @@ function BasicUsage({ uid, ...props }) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            Create New Ticker - Frosty Faustings XIII 2021 - Online
-          </ModalHeader>
+          <ModalHeader>Create New Ticker</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex justifyContent="center">
@@ -211,6 +218,9 @@ function BasicUsage({ uid, ...props }) {
                   placeholder={tournamentName || "tournament name"}
                   onChange={(e) => setTournamentName(e.target.value)}
                 />
+                <FormHelperText ml={2}>
+                  e.g. Frosty Faustings XIII 2021 - Online
+                </FormHelperText>
               </FormControl>
               <Button
                 colorScheme="purple"

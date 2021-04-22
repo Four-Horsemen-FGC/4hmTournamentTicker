@@ -15,10 +15,18 @@ const HeaderContainer = (props) => {
       {/* <Logos /> */}
       <div className={styles.space}>
         <div className={styles.logoDiv}>
-          <img src={typoGraphicLogo} alt="typgraphicLogo"></img>
+          <img
+            className={styles.orgLogos}
+            src={typoGraphicLogo}
+            alt="typgraphicLogo"
+          ></img>
         </div>
         <div className={styles.logoDiv}>
-          <img src={fortressLogo} alt="fortressLogo"></img>
+          <img
+            className={styles.orgLogos}
+            src={fortressLogo}
+            alt="fortressLogo"
+          ></img>
         </div>
       </div>
       <div className={styles.flex}>

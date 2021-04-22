@@ -1,7 +1,7 @@
 import React from "react";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { HStack } from "@chakra-ui/layout";
+import { Flex } from "@chakra-ui/layout";
 import firebase from "firebase/app";
 
 import EventCard from "./index";
@@ -16,7 +16,7 @@ const EventCardList = ({ events, ...props }) => {
   const activeEventId = userDoc?.data().activeEvent.eventId;
 
   return (
-    <HStack padding="3" spacing="5">
+    <Flex padding="2" flexWrap="wrap">
       {events.map((event) => (
         <EventCard
           key={event.eventId}
@@ -25,7 +25,7 @@ const EventCardList = ({ events, ...props }) => {
           {...event}
         />
       ))}
-    </HStack>
+    </Flex>
   );
 };
 

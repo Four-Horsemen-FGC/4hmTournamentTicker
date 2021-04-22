@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Image, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { db } from "../../index";
 import { concatName } from "../../domains/Top8/Top8Body/utils";
+import firebase from "firebase/app";
 
 // eventId: 537272
 // eventName: "Guilty Gear XX Accent Core +R"
@@ -46,8 +47,35 @@ const EventCard = ({
     });
   };
 
+  const deleteEvent = async () => {
+    await db
+      .collection("users")
+      .doc(userId)
+      .update({
+        events: firebase.firestore.FieldValue.arrayRemove({
+          eventId,
+          eventName,
+          location,
+          messages,
+          top8Id,
+          imageUrl,
+          tournamentId,
+          tournamentName,
+        }),
+      });
+
+    toast({
+      title: "Event Deleted.",
+      description: `Deleted ${eventName} from history`,
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   return (
     <Box
+      sx={{ margin: "1" }}
       maxW="sm"
       borderRadius="lg"
       overflow="hidden"
@@ -86,10 +114,19 @@ const EventCard = ({
 
         <Text>{location}</Text>
       </Box>
-      <Flex width="full" alignItems="flex-end" p="2">
+      <Flex width="full" alignItems="space-between" p="2">
         <Button
+          onClick={deleteEvent}
+          variant="ghost"
+          colorScheme="red"
+          size="sm"
+          mr="auto"
+        >
+          Delete Event
+        </Button>
+        <Button
+          ml="auto"
           onClick={setActiveEvent}
-          marginLeft="auto"
           variant="ghost"
           colorScheme="blue"
           size="sm"
