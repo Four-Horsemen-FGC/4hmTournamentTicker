@@ -69,15 +69,15 @@ const MATCH_RESULTS = gql`
 
 const Top8Body = (props) => {
   const { eventId } = useActiveEventOnce() || {};
-  console.log(`eventId`, eventId);
+  // console.log(`eventId`, eventId);
   // invoke useQuery to ping smash.gg for top8 results
-  const { loading, error, data, called } = useQuery(MATCH_RESULTS, {
+  const { loading, error, data } = useQuery(MATCH_RESULTS, {
     // variables: { eventId: 543159, page: 1, perPage: 15 },
     skip: !eventId,
     variables: { eventId, page: 1, perPage: 15 },
   });
 
-  console.log({ loading, error, data, called });
+  // console.log({ loading, error, data, called });
 
   if (loading || !eventId)
     return (
@@ -102,9 +102,9 @@ const Top8Body = (props) => {
     "Losers Final": [styles.losersFinal],
   };
 
-  console.log(`data`, data);
+  // console.log(`data`, data);
 
-  console.log(data?.event.sets.nodes);
+  // console.log(data?.event.sets.nodes);
   const games = flattenQueryData(data?.event.sets.nodes)
     // .filter((game) => game.p1Name !== null || game.p2Name !== null)
     .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
@@ -116,15 +116,18 @@ const Top8Body = (props) => {
   let losersRoundName = losersGames
     .filter((game) => game.matchName.includes("Losers Round"))
     .pop().matchName;
+
   losersGames = losersGames.filter((game) => {
     return (
       !game.matchName.includes("Losers Round") ||
       game.matchName === losersRoundName
     );
   });
+
   matchStyles[losersRoundName] = matchStyles["Losers Round"];
 
   let lastWinnersMatch = winnersGames[winnersGames.length - 1];
+  // console.log(`lastWinnersMatch`, lastWinnersMatch);
   if (
     lastWinnersMatch?.matchName === "Grand Final Reset" &&
     lastWinnersMatch?.p1Name !== "TBD" &&
@@ -133,7 +136,7 @@ const Top8Body = (props) => {
     winnersGames = winnersGames.filter(
       (game) => game.matchName !== "Grand Final"
     );
-  } else {
+  } else if (lastWinnersMatch?.matchName === "Grand Final Reset") {
     winnersGames.pop();
   }
 
@@ -141,8 +144,13 @@ const Top8Body = (props) => {
     return { game, style: matchStyles[game.matchName].shift() };
   });
   const losersMatches = losersGames.map((game) => {
+    // if (game.matchName.includes("Losers Round")) {
+
+    // }
     return { game, style: matchStyles[game.matchName].shift() };
   });
+
+  // console.log(losersMatches);
 
   let seen = {};
   winnersMatches.forEach((match) => {
@@ -159,6 +167,7 @@ const Top8Body = (props) => {
       seen[match.game.matchName] = true;
     }
   });
+  // console.log(`seen`, seen);
 
   return (
     <div className={styles.flex}>

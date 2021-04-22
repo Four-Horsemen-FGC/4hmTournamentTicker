@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import styles from './Clock.module.css';
+import React, { useEffect, useState } from "react";
+import styles from "./Clock.module.css";
 
-function Clock() {
+function Clock({ location, ...props }) {
   const [clockState, setClockState] = useState();
 
   useEffect(() => {
     setInterval(() => {
       const date = new Date();
-      setClockState(date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }));
+      setClockState(
+        date.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+      );
     }, 1000);
   }, []);
 
   return (
     <div className={styles.clockContainer}>
       <p className={styles.clock}>{clockState}</p>
-      <h2 className={styles.h2}>Nashville, TN</h2>
+      <h2 className={styles.h2}>{location}</h2>
     </div>
   );
 }

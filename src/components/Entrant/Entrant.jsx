@@ -5,12 +5,12 @@ import styles from "./Entrant.module.css";
 function Entrant({ prefix, name, score, outcome }) {
   const entrantWithOrg = (
     <div className={styles.playerWithOrg}>
-      <h2 className={styles.playerPrefix}>{prefix}</h2>
-      <h2>{name}</h2>
+      <p className={styles.playerPrefix}>{prefix}</p>
+      <p className={styles.player}>{name}</p>
     </div>
   );
 
-  const entrantWithoutOrg = <h2>{name}</h2>;
+  const entrantWithoutOrg = <p className={styles.player}>{name}</p>;
 
   return (
     <div className={styles.entrant}>

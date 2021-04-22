@@ -28,12 +28,11 @@ import "firebase/firestore";
 import "firebase/auth";
 import { useLazyQuery, gql } from "@apollo/client";
 import { db } from "../../../index.js";
-// import { useCollectionData } from "react-firebase-hooks/firestore";
-// import MessageInput from "../MessageInput.jsx/MessageInput";
 
 const TOURNAMENT_EVENTS = gql`
   query getTournamentEvents($tourneySlug: String!) {
     tournament(slug: $tourneySlug) {
+      id
       city
       name
       events {
@@ -69,12 +68,13 @@ function BasicUsage({ uid, ...props }) {
   });
 
   const [dbPayload, setDbPayload] = useState({
+    tournamentId: null,
     tournamentName: null,
     location: null,
     eventName: null,
     eventId: null,
     top8Id: null,
-    imagesurl: null,
+    imageUrl: null,
     messages: [],
   });
 
@@ -92,7 +92,7 @@ function BasicUsage({ uid, ...props }) {
     // If you need messages in state then keep else delete
     setDbPayload({
       ...dbPayload,
-      messages: messagesPayload,
+      messages: messagesPayload ?? ["Heaven or Hell, let's rock"],
     });
 
     await db
@@ -151,6 +151,7 @@ function BasicUsage({ uid, ...props }) {
 
   const createTournamentEvents = (queryData) => {
     let tournament = queryData.name;
+    let tournamentId = queryData.id;
     let location = queryData.city ?? "online";
     let events = queryData.events;
 
@@ -168,11 +169,12 @@ function BasicUsage({ uid, ...props }) {
             setDbPayload({
               ...dbPayload,
               tournamentName: tournament,
+              tournamentId: tournamentId,
               location: location,
               eventName: element.name,
               eventId: element.id,
               top8Id: top8id,
-              imageurl: imageUrl,
+              imageUrl: imageUrl,
             });
           }}
         >

@@ -17,10 +17,10 @@ export const flattenQueryData = (data) => {
 };
 
 export const createComponents = (games) => {
-  return games.map((match) => (
+  return games.map((match, idx) => (
     <div className={match.style}>
       <Top8Match
-        key={match.id}
+        key={`${match.id}-${idx}`}
         p1Org={match.game.p1Org}
         p2Org={match.game.p2Org}
         p1Name={match.game.p1Name}

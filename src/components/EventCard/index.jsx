@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Image, Button, Flex, Text, useToast } from "@chakra-ui/react";
 import { db } from "../../index";
+import { concatName } from "../../domains/Top8/Top8Body/utils";
 
 // eventId: 537272
 // eventName: "Guilty Gear XX Accent Core +R"
@@ -15,7 +16,8 @@ const EventCard = ({
   location,
   messages,
   top8Id,
-  imageurl,
+  imageUrl,
+  tournamentId,
   tournamentName,
   userId,
   isActive,
@@ -29,7 +31,8 @@ const EventCard = ({
         location,
         messages,
         top8Id,
-        imageurl,
+        imageUrl,
+        tournamentId,
         tournamentName,
       },
     });
@@ -54,7 +57,7 @@ const EventCard = ({
         height="300px"
         width="300px"
         objectFit="cover"
-        src={imageurl}
+        src={imageUrl}
         alt={eventName}
       />
 
@@ -67,7 +70,7 @@ const EventCard = ({
             fontSize="xs"
             textTransform="uppercase"
           >
-            {tournamentName}
+            {concatName(tournamentName, 36)}
           </Text>
         </Box>
 
@@ -78,7 +81,7 @@ const EventCard = ({
           lineHeight="tight"
           isTruncated
         >
-          {eventName}
+          {concatName(eventName, 36)}
         </Text>
 
         <Text>{location}</Text>

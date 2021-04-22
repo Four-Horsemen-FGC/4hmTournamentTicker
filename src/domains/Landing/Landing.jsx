@@ -37,8 +37,8 @@ const Landing = () => {
 
   return (
     <Center h="100%">
-      <Flex maxW="70%" direction={"column"} align="center" mt="10%">
-        <Image src={typoGraphicLogo} alt="4hmLogo"></Image>
+      <Flex maxW="full" maxH="full" direction={"column"} align="center">
+        <Image maxW="70%" src={typoGraphicLogo} alt="4hmLogo"></Image>
         <Text fontSize="5xl">Tournament Ticker</Text>
         <Button
           colorScheme="blue"
