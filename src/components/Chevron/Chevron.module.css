@@ -8,9 +8,9 @@
   justify-content: center;
   position: absolute;
   box-sizing: border-box;
-  top: -3.2vh;
-  width: 5vmin;
-  height: 4.8vmin;
+  top: -2.7vh;
+  width: 4.5vmin;
+  height: 4.3vmin;
   background-color: #f6f6f6;
   clip-path: polygon(100% 0, 100% 60%, 50% 100%, 0 60%, 0 0);
 }
@@ -39,8 +39,9 @@
   z-index: 2;
   position: absolute;
   margin: 0 auto;
-  top: -0.2vmin;
-  padding: 0.4vw 1vh;
+  top: -0.4vmin;
+  padding: 0.2vw 0.8vh;
   font-size: 2.5vmin;
+  font-weight: 700;
   color: #011013;
 }

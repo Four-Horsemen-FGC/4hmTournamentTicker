@@ -1,6 +1,7 @@
 .scoreWin,
 .scoreLose {
   display: flex;
+  margin-top: 3px;
   justify-content: center;
   align-items: center;
   width: 2.3vmax;

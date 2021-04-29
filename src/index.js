@@ -1,11 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import {
   ApolloClient,
@@ -14,32 +9,64 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-// import firebase from "firebase/app";
-// import "firebase/firestore";
-// import "firebase/auth";
 
-// import { useAuthState } from "react-firebase-hooks/auth";
-// import { useCollectionData } from "react-firebase-hooks/firestore";
+// Firebase App (the core Firebase SDK) is always required and must be listed first
+import firebase from "firebase/app";
+// If you are using v7 or any earlier version of the JS SDK, you should import firebase using namespace import
+// import * as firebase from "firebase/app"
+
+// If you enabled Analytics in your project, add the Firebase SDK for Analytics
+import "firebase/analytics";
+
+// Add the Firebase products that you want to use
+import "firebase/auth";
+import "firebase/firestore";
+
+import "@fontsource/amarante";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 import Dashboard from "./domains/Dashboard/Dashboard";
 import MainContainer from "./containers/MainContainer/MainContainer";
 import StreamQueue from "./domains/StreamQueue/StreamQueue";
 import Top8 from "./domains/Top8/Top8";
+import Landing from "./domains/Landing/Landing";
 import reportWebVitals from "./reportWebVitals";
 import "./assets/index.css";
+import theme from "./theme";
 
-// firebase.initializeApp({
-//   apiKey: "AIzaSyAa24XSUkWBPh56SUELjBaKdpxH6-m5buM",
-//   authDomain: "hmtournamentticker.firebaseapp.com",
-//   projectId: "hmtournamentticker",
-//   storageBucket: "hmtournamentticker.appspot.com",
-//   messagingSenderId: "919813904397",
-//   appId: "1:919813904397:web:a8766d1925ca55baa31d44",
-//   measurementId: "G-EQ3R5FL4BK",
-// });
+import ProtectedRoute from "./components/ProtectedRoute";
 
-// const auth = firebase.auth();
-// const firestore = firebase.firestore();
+// TODO: Replace the following with your app's Firebase project configuration
+// For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+const firebaseConfig = {
+  apiKey: "AIzaSyAa24XSUkWBPh56SUELjBaKdpxH6-m5buM",
+  authDomain: "hmtournamentticker.firebaseapp.com",
+  projectId: "hmtournamentticker",
+  storageBucket: "hmtournamentticker.appspot.com",
+  messagingSenderId: "919813904397",
+  appId: "1:919813904397:web:a8766d1925ca55baa31d44",
+  measurementId: "G-EQ3R5FL4BK",
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Initialize firestore
+export const db = firebase.firestore();
+
+// --- Data Model is going to look roughly like this ---
+// ID auto generated
+// 	uID - String
+// 	ActivelyTrackedEvent - {}
+// 	Events - [{Event}]
+// Event
+// 	TournamentName - string
+// 	EventName - string
+// 	EventId - integer
+// 	Location - string
+// 	top8Id - integer
+// 	messages - []
 
 const httpLink = createHttpLink({
   uri: "https://api.smash.gg/gql/alpha",
@@ -62,28 +89,29 @@ const client = new ApolloClient({
 const App = () => {
   return (
     <ApolloProvider client={client}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Router>
           <Switch>
-            <Route path="/dashboard">
+            <Route exact path="/">
+              <Landing />
+            </Route>
+            <ProtectedRoute path="/dashboard">
               <Dashboard />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path="/upcoming-matches">
+            <ProtectedRoute path="/upcoming-matches">
               <StreamQueue />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path="/top-eight">
+            <ProtectedRoute path="/top-eight">
               <Top8 />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path="/recent-matches">
+            <ProtectedRoute path="/recent-matches">
               <MainContainer />
-            </Route>
+            </ProtectedRoute>
 
-            <Route path="/">
-              <Redirect to="/dashboard" />
-            </Route>
+            {/* <Route path="/top-eight">{user ? <Top8 /> : <Landing />}</Route> */}
           </Switch>
         </Router>
       </ChakraProvider>

@@ -1,25 +1,45 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
+import { useActiveEventOnce } from "../../../hooks";
+import { Spinner, Center } from "@chakra-ui/react";
 import QueueSet from "../QueueSet/QueueSet";
 import styles from "./QueueBody.module.css";
 
+// const MATCH_RESULTS = gql`
+//   query StreamQueueOnTournament($tourneyId: String!) {
+//     tournament(slug: $tourneyId) {
+//       id
+//       streamQueue {
+//         stream {
+//           streamSource
+//           streamName
+//         }
+//         sets {
+//           id
+//           slots {
+//             entrant {
+//               participants {
+//                 prefix
+//                 gamerTag
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 const MATCH_RESULTS = gql`
-  query StreamQueueOnTournament($tourneySlug: String!) {
-    tournament(slug: $tourneySlug) {
-      id
-      streamQueue {
-        stream {
-          streamSource
-          streamName
-        }
-        sets {
-          id
-          slots {
-            entrant {
-              participants {
-                prefix
-                gamerTag
-              }
+  query StreamQueueOnTournament($tourneyId: ID!) {
+    streamQueue(tournamentId: $tourneyId) {
+      sets {
+        id
+        slots {
+          entrant {
+            participants {
+              prefix
+              gamerTag
             }
           }
         }
@@ -49,23 +69,39 @@ const flattenQuery = (data) => {
 // frosty faustings: frosty-faustings-xiii-2021-online
 
 function QueueBody() {
-  const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { tourneySlug: "frosty-faustings-xiii-2021-online" },
+  const { tournamentId } = useActiveEventOnce() || {};
+  // console.log(`tournamentId`, tournamentId);
+
+  // const { loading, error, data } = useQuery(MATCH_RESULTS, {
+  //   variables: { tourneyId: "frosty-faustings-xiii-2021-online" },
+  // });
+
+  // if (loading) {
+  //   console.log("fetching data from smash.gg ... hang about boi");
+  //   return <p>loading...</p>;
+  // }
+
+  const { loading, data } = useQuery(MATCH_RESULTS, {
+    // variables: { tournamentId: 543159, page: 1, perPage: 15 },
+    skip: !tournamentId,
+    variables: { tourneyId: tournamentId },
   });
 
-  if (loading) {
-    console.log("fetching data from smash.gg ... hang about boi");
-    return <p>loading...</p>;
+  if (loading || !tournamentId) {
+    return (
+      <Center h="full" w="full">
+        <Spinner />
+      </Center>
+    );
   }
 
-  if (error) {
-    console.log(`error occured. RiP in Peppercinis. error: ${error}`);
-    return <p>an error has occured, please try again.</p>;
-  }
+  // if (error) {
+  //   console.log(`error occured. RiP in Peppercinis. error: ${error}`);
+  //   return <p>an error has occured, please try again.</p>;
+  // }
 
-  const upcomingMatches = flattenQuery(
-    data.tournament?.streamQueue?.[0].sets ?? []
-  )
+  console.log(`data`, data?.streamQueue?.[0]?.sets);
+  const upcomingMatches = flattenQuery(data?.streamQueue?.[0]?.sets || [])
     .filter((element) => element.p1Name !== null && element.p2Name !== null)
     .map((element) => {
       return (

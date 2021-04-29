@@ -11,18 +11,20 @@
   border-right: 20px solid black;
   border-radius: 70px;
   /* background-color: rgb(3, 211, 252, 0.3); */
-  background-image: url(../../assets/images/bg_recent_4096x2160.jpg);
+  background-image: url(../../assets/images/4K_Blue2.jpg);
   background-size: 100% auto;
   background-repeat: no-repeat;
 }
 
 .matchesGrid {
-  width: 85%;
+  width: 87%;
   height: 85%;
+  margin-bottom: 1vh;
+  padding-bottom: 1vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
-  gap: 7% 3%;
+  gap: 7% 4%;
   justify-content: space-between;
 }
 

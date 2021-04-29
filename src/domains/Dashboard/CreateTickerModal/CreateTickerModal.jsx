@@ -18,22 +18,32 @@ import {
   MenuItemOption,
   MenuOptionGroup,
   Text,
+  FormHelperText,
 } from "@chakra-ui/react";
 
 import { DeleteIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 import React, { useState } from "react";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
 import { useLazyQuery, gql } from "@apollo/client";
-// import MessageInput from "../MessageInput.jsx/MessageInput";
+import { db } from "../../../index.js";
 
 const TOURNAMENT_EVENTS = gql`
   query getTournamentEvents($tourneySlug: String!) {
     tournament(slug: $tourneySlug) {
+      id
       city
       name
       events {
         id
         name
+        videogame {
+          images {
+            url
+          }
+        }
         phases {
           id
           name
@@ -50,34 +60,54 @@ const slugifyTournamentName = (TourneyName) => {
   return TourneyName.replace(/(\s|-)+/g, "-").toLowerCase();
 };
 
-function BasicUsage() {
+function BasicUsage({ uid, ...props }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tournamentName, setTournamentName] = useState("");
   const [scrollingMessages, setScrollingMessages] = useState([{ value: "" }]);
   const [getEventsQuery, { loading, data }] = useLazyQuery(TOURNAMENT_EVENTS, {
     variables: { tourneySlug: slugifyTournamentName(tournamentName) },
+    fetchPolicy: "no-cache",
   });
 
-  const [dbPayload, setDbPayload] = useState({
+  const initialState = {
+    tournamentId: null,
     tournamentName: null,
     location: null,
     eventName: null,
     eventId: null,
     top8Id: null,
+    imageUrl: null,
     messages: [],
-  });
+  };
 
-  const parseMessagesAndSend = (messages) => {
+  const [dbPayload, setDbPayload] = useState(initialState);
+
+  const parseMessagesAndSend = async (messages, userId) => {
+    // console.log(messages);
     let messagesPayload = [];
     messages.forEach((element) => {
       if (element.value) {
         messagesPayload.push(element.value);
       }
     });
+
+    const thing = { ...dbPayload, messages: messagesPayload };
+
+    // If you need messages in state then keep else delete
     setDbPayload({
       ...dbPayload,
-      messages: messagesPayload,
+      messages: messagesPayload ?? ["Heaven or Hell, let's rock"],
     });
+
+    await db
+      .collection("users")
+      .doc(userId)
+      .update({
+        events: firebase.firestore.FieldValue.arrayUnion({ ...thing }),
+      });
+
+    setDbPayload(initialState);
+    setScrollingMessages([{ value: "" }]);
     onClose();
   };
 
@@ -127,11 +157,14 @@ function BasicUsage() {
 
   const createTournamentEvents = (queryData) => {
     let tournament = queryData.name;
+    let tournamentId = queryData.id;
     let location = queryData.city ?? "online";
     let events = queryData.events;
 
     return events.map((element, idx) => {
+      // console.log(`element.phases`, element.phases);
       let top8id = element.phases[element.phases.length - 1].id;
+      let imageUrl = element?.videogame?.images[0]?.url;
       return (
         <MenuItemOption
           key={`${element.name}${idx}`}
@@ -143,10 +176,12 @@ function BasicUsage() {
             setDbPayload({
               ...dbPayload,
               tournamentName: tournament,
+              tournamentId: tournamentId,
               location: location,
               eventName: element.name,
               eventId: element.id,
               top8Id: top8id,
+              imageUrl: imageUrl,
             });
           }}
         >
@@ -157,12 +192,14 @@ function BasicUsage() {
   };
 
   // console.log(`tournamentName: ${tournamentName}`);
-  console.log(dbPayload);
+  // console.log(dbPayload);
   // console.table(scrollingMessages);
 
   return (
     <>
-      <Button onClick={onOpen}>Create new ticker</Button>
+      <Button colorScheme="green" onClick={onOpen}>
+        Create new ticker
+      </Button>
 
       <Modal
         closeOnOverlayClick={false}
@@ -181,6 +218,9 @@ function BasicUsage() {
                   placeholder={tournamentName || "tournament name"}
                   onChange={(e) => setTournamentName(e.target.value)}
                 />
+                <FormHelperText ml={2}>
+                  e.g. Frosty Faustings XIII 2021 - Online
+                </FormHelperText>
               </FormControl>
               <Button
                 colorScheme="purple"
@@ -214,12 +254,6 @@ function BasicUsage() {
             <FormControl mt={10}>
               <FormLabel>Scrolling Messages</FormLabel>
               {createScrollingMessages(scrollingMessages)}
-              {/* <AddIcon
-                _hover={{ color: "green" }}
-                as="button"
-                onClick={() => addInput()}
-                // focusable={true}
-              ></AddIcon> */}
               <Button onClick={() => addInput()}>Add Message</Button>
             </FormControl>
           </ModalBody>
@@ -227,7 +261,7 @@ function BasicUsage() {
           <ModalFooter>
             <Button
               variant="solid"
-              onClick={() => parseMessagesAndSend(scrollingMessages)}
+              onClick={() => parseMessagesAndSend(scrollingMessages, uid)}
             >
               Submit
             </Button>

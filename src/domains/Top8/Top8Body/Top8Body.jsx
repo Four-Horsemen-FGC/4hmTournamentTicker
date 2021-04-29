@@ -2,41 +2,15 @@ import React from "react";
 import styles from "./Top8Body.module.css";
 import { useQuery, gql } from "@apollo/client";
 import { createComponents, flattenQueryData } from "./utils";
-
-// const MATCH_RESULTS = gql`
-//   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
-//     event(id: $eventId) {
-//       id
-//       name
-//       sets(sortType: MAGIC, page: $page, perPage: $perPage) {
-//         nodes {
-//           fullRoundText
-//           identifier
-//           slots {
-//             entrant {
-//               participants {
-//                 prefix
-//                 gamerTag
-//               }
-//             }
-//             standing {
-//               stats {
-//                 score {
-//                   value
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
+import { useActiveEventOnce } from "../../../hooks";
+import { Spinner, Center } from "@chakra-ui/react";
 
 const MATCH_RESULTS = gql`
-  query PhaseQuery {
-    phase(id: 895224) {
-      sets {
+  query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
+    event(id: $eventId) {
+      id
+      name
+      sets(sortType: MAGIC, page: $page, perPage: $perPage) {
         nodes {
           fullRoundText
           identifier
@@ -61,21 +35,55 @@ const MATCH_RESULTS = gql`
   }
 `;
 
+// const MATCH_RESULTS = gql`
+//   query PhaseQuery($top8Id: ID!) {
+//     phase(id: $top8Id) {
+//       sets {
+//         nodes {
+//           fullRoundText
+//           identifier
+//           slots {
+//             entrant {
+//               participants {
+//                 prefix
+//                 gamerTag
+//               }
+//             }
+//             standing {
+//               stats {
+//                 score {
+//                   value
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
 // 4hm test tournament eventId: 543706
 // cloud's eventId: 547481
 // frostyFaustings MVC3: 543159
 
 const Top8Body = (props) => {
+  const { eventId } = useActiveEventOnce() || {};
+  // console.log(`eventId`, eventId);
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { eventId: 543159, page: 1, perPage: 15 },
+    // variables: { eventId: 543159, page: 1, perPage: 15 },
+    skip: !eventId,
+    variables: { eventId, page: 1, perPage: 12 },
   });
 
-  if (loading)
+  // console.log({ loading, error, data, called });
+
+  if (loading || !eventId)
     return (
-      <div className={styles.matchesContainer}>
-        <p className={styles.loadingAndError}>Loading ...</p>;
-      </div>
+      <Center h="full" w="full">
+        <Spinner />
+      </Center>
     );
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
@@ -94,8 +102,10 @@ const Top8Body = (props) => {
     "Losers Final": [styles.losersFinal],
   };
 
-  // console.log(data.phase.sets.nodes);
-  const games = flattenQueryData(data.phase.sets.nodes)
+  // console.log(`data`, data);
+
+  // console.log(data?.event.sets.nodes);
+  const games = flattenQueryData(data?.event.sets.nodes)
     // .filter((game) => game.p1Name !== null || game.p2Name !== null)
     .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
 
@@ -103,18 +113,36 @@ const Top8Body = (props) => {
     (game) => !game.matchName.includes("Losers") && matchStyles[game.matchName]
   );
   let losersGames = games.filter((game) => game.matchName.includes("Losers"));
+
+  // const singleLosersRound = () => {
+  //   let count = 0;
+  //   console.log(`losersGames in func`, losersGames);
+  //   losersGames.forEach((game) => {
+  //     if (game.matchName.includes("Losers Round")) {
+  //       count = count + 1;
+  //     }
+  //   });
+  //   console.log(count === 2);
+  //   return count === 2;
+  // };
+
   let losersRoundName = losersGames
     .filter((game) => game.matchName.includes("Losers Round"))
     .pop().matchName;
+  // console.log(`losersRoundName`, losersRoundName);
   losersGames = losersGames.filter((game) => {
     return (
       !game.matchName.includes("Losers Round") ||
       game.matchName === losersRoundName
     );
   });
+  // console.log(`losersGames`, losersGames);
+
   matchStyles[losersRoundName] = matchStyles["Losers Round"];
 
   let lastWinnersMatch = winnersGames[winnersGames.length - 1];
+  // console.log(`lastWinnersMatch`, lastWinnersMatch);
+
   if (
     lastWinnersMatch?.matchName === "Grand Final Reset" &&
     lastWinnersMatch?.p1Name !== "TBD" &&
@@ -123,7 +151,7 @@ const Top8Body = (props) => {
     winnersGames = winnersGames.filter(
       (game) => game.matchName !== "Grand Final"
     );
-  } else {
+  } else if (lastWinnersMatch?.matchName === "Grand Final Reset") {
     winnersGames.pop();
   }
 
@@ -131,8 +159,14 @@ const Top8Body = (props) => {
     return { game, style: matchStyles[game.matchName].shift() };
   });
   const losersMatches = losersGames.map((game) => {
+    // console.log(`game`, game.matchName);
+    // if (!singleLosersRound()) {
+    //   return { game, style: matchStyles[game.matchName].pop() };
+    // }
     return { game, style: matchStyles[game.matchName].shift() };
   });
+
+  // console.log(losersMatches);
 
   let seen = {};
   winnersMatches.forEach((match) => {
@@ -149,6 +183,7 @@ const Top8Body = (props) => {
       seen[match.game.matchName] = true;
     }
   });
+  // console.log(`seen`, seen);
 
   return (
     <div className={styles.flex}>

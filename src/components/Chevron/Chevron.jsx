@@ -5,7 +5,7 @@ function Chevron(props) {
   return (
     <div className={styles.chevronWrap}>
       <div className={styles.chevron}>
-        <h3 className={styles.identifier}>{props.identifier}</h3>
+        <p className={styles.identifier}>{props.identifier}</p>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import styles from "./SetContainer.module.css";
 function SetContainer({ id, p1Name, p2Name, p1Org, p2Org, p1Score, p2Score }) {
   return (
     <div className={styles.setContainer}>
-      <Chevron key={id} identifier={id} />
+      <Chevron key={`chevron-${id}`} identifier={id} />
       <Set
         key={id}
         p1Name={p1Name}

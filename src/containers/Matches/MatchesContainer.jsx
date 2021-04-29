@@ -3,6 +3,8 @@ import SetContainer from "../SetContainer/SetContainer";
 import { useQuery, gql } from "@apollo/client";
 import styles from "./MatchesContainer.module.css";
 import { flattenQueryData } from "../../domains/Top8/Top8Body/utils";
+import { useActiveEventOnce } from "../../hooks/index";
+import { Spinner, Center } from "@chakra-ui/react";
 
 const MATCH_RESULTS = gql`
   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -38,21 +40,24 @@ const MATCH_RESULTS = gql`
 // frostyFaustings MVC3: 543159
 
 function MatchesContainer() {
+  const { eventId } = useActiveEventOnce() || {};
+  console.log(`eventId`, eventId);
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    variables: { eventId: 543159, page: 1, perPage: 8 },
+    skip: !eventId,
+    variables: { eventId, page: 1, perPage: 8 },
   });
 
-  if (loading)
+  if (loading || !eventId)
     return (
-      <div className={styles.matchesContainer}>
-        <p className={styles.loadingAndError}>Loading ...</p>;
-      </div>
+      <Center h="full" w="full">
+        <Spinner />
+      </Center>
     );
 
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  const queryResult = flattenQueryData(data.event.sets.nodes)
+  const queryResult = flattenQueryData(data?.event?.sets.nodes)
     .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id))
     .map((element) => {
       return (
