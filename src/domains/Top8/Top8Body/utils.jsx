@@ -16,6 +16,76 @@ export const flattenQueryData = (data) => {
   });
 };
 
+// const findLosersRound = (dataArray) => {
+//   dataArray.filter(dataArray.event.sets.nodes);
+// };
+
+export const flattenTop8data = (data) => {
+  // const top8Exists = !!data?.event?.phases.filter(
+  //   (phase) => phase.name === "Top 8"
+  // ).length;
+
+  let flattenedData = {
+    "Grand Final": [],
+    "Winners Final": [],
+    "Winners Semi-Final": [],
+    "Losers Round": [],
+    "Losers Quarter-Final": [],
+    "Losers Semi-Final": [],
+    "Losers Final": [],
+  };
+
+  console.log(`data.event.sets.nodes`, data.event.sets.nodes);
+
+  data?.event?.sets?.nodes.forEach((set) => {
+    console.log("inside the Loop");
+    if (
+      !flattenedData[set.fullRoundText] &&
+      !set.fullRoundText.includes("Losers Round") &&
+      !set.fullRoundText.includes("Grand Final")
+    )
+      return;
+
+    if (set?.lPlacement < 8 && set.fullRoundText.includes("Losers Round")) {
+      return flattenedData["Losers Round"].push({
+        id: set.identifier,
+        matchName: set.fullRoundText,
+        p1Org: set.slots[0].entrant?.participants[0].prefix ?? null,
+        p2Org: set.slots[1].entrant?.participants[0].prefix ?? null,
+        p1Name: set.slots[0].entrant?.participants[0].gamerTag ?? "TBD",
+        p2Name: set.slots[1].entrant?.participants[0].gamerTag ?? "TBD",
+        p1Score: set.slots[0].standing?.stats.score.value ?? 0,
+        p2Score: set.slots[1].standing?.stats.score.value ?? 0,
+      });
+    }
+    if (set?.lPlacement < 8 && set.fullRoundText.includes("Grand Final")) {
+      return flattenedData["Grand Final"].push({
+        id: set.identifier,
+        matchName: set.fullRoundText,
+        p1Org: set.slots[0].entrant?.participants[0].prefix ?? null,
+        p2Org: set.slots[1].entrant?.participants[0].prefix ?? null,
+        p1Name: set.slots[0].entrant?.participants[0].gamerTag ?? "TBD",
+        p2Name: set.slots[1].entrant?.participants[0].gamerTag ?? "TBD",
+        p1Score: set.slots[0].standing?.stats.score.value ?? 0,
+        p2Score: set.slots[1].standing?.stats.score.value ?? 0,
+      });
+    } else if (set?.lPlacement < 8) {
+      return flattenedData[set.fullRoundText].push({
+        id: set.identifier,
+        matchName: set.fullRoundText,
+        p1Org: set.slots[0].entrant?.participants[0].prefix ?? null,
+        p2Org: set.slots[1].entrant?.participants[0].prefix ?? null,
+        p1Name: set.slots[0].entrant?.participants[0].gamerTag ?? "TBD",
+        p2Name: set.slots[1].entrant?.participants[0].gamerTag ?? "TBD",
+        p1Score: set.slots[0].standing?.stats.score.value ?? 0,
+        p2Score: set.slots[1].standing?.stats.score.value ?? 0,
+      });
+    }
+  });
+
+  return flattenedData;
+};
+
 export const createComponents = (games) => {
   return games.map((match, idx) => (
     <div className={match.style}>
