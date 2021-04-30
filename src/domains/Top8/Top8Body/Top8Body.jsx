@@ -1,17 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Top8Body.module.css";
 import { useQuery, gql } from "@apollo/client";
-import { createComponents, flattenQueryData } from "./utils";
+import { Grid, GridItem, Box } from "@chakra-ui/react";
+// import { createComponents, flattenQueryData } from "./utils";
+import TopEightRound from "../TopEightRound";
 import { useActiveEventOnce } from "../../../hooks";
 import { Spinner, Center } from "@chakra-ui/react";
+import { flattenQueryData, flattenTop8data } from "./utils";
 
 const MATCH_RESULTS = gql`
   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
     event(id: $eventId) {
       id
       name
+      phases {
+        name
+      }
       sets(sortType: MAGIC, page: $page, perPage: $perPage) {
         nodes {
+          lPlacement
+          wPlacement
+
           fullRoundText
           identifier
           slots {
@@ -69,15 +78,13 @@ const MATCH_RESULTS = gql`
 
 const Top8Body = (props) => {
   const { eventId } = useActiveEventOnce() || {};
-  // console.log(`eventId`, eventId);
+
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     // variables: { eventId: 543159, page: 1, perPage: 15 },
     skip: !eventId,
-    variables: { eventId, page: 1, perPage: 12 },
+    variables: { eventId, page: 1, perPage: 30 },
   });
-
-  // console.log({ loading, error, data, called });
 
   if (loading || !eventId)
     return (
@@ -88,114 +95,54 @@ const Top8Body = (props) => {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  let matchStyles = {
-    "Winners Semi-Final": [styles.winnersSemiFinal1, styles.winnersSemiFinal2],
-    "Winners Final": [styles.winnersFinal],
-    "Grand Final": [styles.grandFinal],
-    "Grand Final Reset": [styles.grandFinal],
-    "Losers Round": [styles.losersRound1, styles.losersRound2],
-    "Losers Quarter-Final": [
-      styles.losersQuarterFinal1,
-      styles.losersQuarterFinal2,
-    ],
-    "Losers Semi-Final": [styles.losersSemiFinal],
-    "Losers Final": [styles.losersFinal],
-  };
-
-  // console.log(`data`, data);
-
-  // console.log(data?.event.sets.nodes);
-  const games = flattenQueryData(data?.event.sets.nodes)
-    // .filter((game) => game.p1Name !== null || game.p2Name !== null)
-    .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
-
-  let winnersGames = games.filter(
-    (game) => !game.matchName.includes("Losers") && matchStyles[game.matchName]
-  );
-  let losersGames = games.filter((game) => game.matchName.includes("Losers"));
-
-  // const singleLosersRound = () => {
-  //   let count = 0;
-  //   console.log(`losersGames in func`, losersGames);
-  //   losersGames.forEach((game) => {
-  //     if (game.matchName.includes("Losers Round")) {
-  //       count = count + 1;
-  //     }
-  //   });
-  //   console.log(count === 2);
-  //   return count === 2;
-  // };
-
-  let losersRoundName = losersGames
-    .filter((game) => game.matchName.includes("Losers Round"))
-    .pop().matchName;
-  // console.log(`losersRoundName`, losersRoundName);
-  losersGames = losersGames.filter((game) => {
-    return (
-      !game.matchName.includes("Losers Round") ||
-      game.matchName === losersRoundName
-    );
-  });
-  // console.log(`losersGames`, losersGames);
-
-  matchStyles[losersRoundName] = matchStyles["Losers Round"];
-
-  let lastWinnersMatch = winnersGames[winnersGames.length - 1];
-  // console.log(`lastWinnersMatch`, lastWinnersMatch);
-
-  if (
-    lastWinnersMatch?.matchName === "Grand Final Reset" &&
-    lastWinnersMatch?.p1Name !== "TBD" &&
-    lastWinnersMatch?.p2Name !== "TBD"
-  ) {
-    winnersGames = winnersGames.filter(
-      (game) => game.matchName !== "Grand Final"
-    );
-  } else if (lastWinnersMatch?.matchName === "Grand Final Reset") {
-    winnersGames.pop();
+  if (data) {
+    // console.log(`data`, data);
+    console.log(flattenTop8data(data));
   }
-
-  const winnersMatches = winnersGames.map((game) => {
-    return { game, style: matchStyles[game.matchName].shift() };
-  });
-  const losersMatches = losersGames.map((game) => {
-    // console.log(`game`, game.matchName);
-    // if (!singleLosersRound()) {
-    //   return { game, style: matchStyles[game.matchName].pop() };
-    // }
-    return { game, style: matchStyles[game.matchName].shift() };
-  });
-
-  // console.log(losersMatches);
-
-  let seen = {};
-  winnersMatches.forEach((match) => {
-    if (seen[match.game.matchName]) {
-      match.game.matchName = null;
-    } else {
-      seen[match.game.matchName] = true;
-    }
-  });
-  losersMatches.forEach((match) => {
-    if (seen[match.game.matchName]) {
-      match.game.matchName = null;
-    } else {
-      seen[match.game.matchName] = true;
-    }
-  });
-  // console.log(`seen`, seen);
+  let flattenedData = flattenTop8data(data);
 
   return (
     <div className={styles.flex}>
-      <div className={styles.winnerBracket}>
-        <div className={styles.grid}>{createComponents(winnersMatches)}</div>
-      </div>
-
-      <div className={styles.loserBracket}>
-        <div className={styles.gridLoser}>
-          {createComponents(losersMatches)}
-        </div>
-      </div>
+      <>
+        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+          {/* <Box w="full" h="100" bg="blue.500" /> */}
+          <TopEightRound
+            key="Winners Semi-Final"
+            data={flattenedData["Winners Semi-Final"]}
+          />
+          <TopEightRound
+            key="Winners Final"
+            data={flattenedData["Winners Final"]}
+            single={true}
+          />
+          <TopEightRound
+            key="Grand Final"
+            data={flattenedData["Grand Final"]}
+            single={true}
+          />
+        </Grid>
+        <Box h="100" />
+        <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+          <TopEightRound
+            key="Losers Round"
+            data={flattenedData["Losers Round"]}
+          />
+          <TopEightRound
+            key="Losers Quarter-Final"
+            data={flattenedData["Losers Quarter-Final"]}
+          />
+          <TopEightRound
+            key="Losers Semi-Final"
+            data={flattenedData["Losers Semi-Final"]}
+            single={true}
+          />
+          <TopEightRound
+            key="Losers Final"
+            data={flattenedData["Losers Final"]}
+            single={true}
+          />
+        </Grid>
+      </>
     </div>
   );
 };

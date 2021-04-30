@@ -11,7 +11,12 @@ const MATCH_RESULTS = gql`
     event(id: $eventId) {
       id
       name
-      sets(filters: { state: 3 }, page: $page, perPage: $perPage) {
+      sets(
+        sortType: RECENT
+        filters: { state: 3 }
+        page: $page
+        perPage: $perPage
+      ) {
         nodes {
           identifier
           slots {
@@ -57,8 +62,10 @@ function MatchesContainer() {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
+  console.log(`data`, data);
+
   const queryResult = flattenQueryData(data?.event?.sets.nodes)
-    .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id))
+    // .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id))
     .map((element) => {
       return (
         <SetContainer

@@ -11,32 +11,40 @@ function top8Match({
   p1Name,
   p2Name,
 }) {
-  const containerTag = (
-    <div className={styles.tag}>
-      <h3 className={styles.h3Margin}>{matchName}</h3>
-    </div>
-  );
+  // const containerTag = (
+  //   <div className={styles.tag}>
+  //     <h3 className={styles.h3Margin}>{matchName}</h3>
+  //   </div>
+  // );
 
   return (
     <div className={styles.top8GameContainer}>
-      {matchName ? containerTag : null}
+      {/* {matchName ? containerTag : null} */}
       <div className={styles.upperTop8}>
         <div className={styles.top8Entrant}>
-          <h2 className={styles.top8Org}>{concatName(p1Org)}</h2>
-          <h2 className={styles.top8}>{concatName(p1Name, 15)}</h2>
+          <h2 className={styles.top8Org}>{p1Org ? concatName(p1Org) : null}</h2>
+          <h2 className={styles.top8}>
+            {p1Name ? concatName(p1Name, 15) : "TBD"}
+          </h2>
         </div>
         <div className={styles.upperScoreHolder}>
-          <h2 className={styles.top8Score}>{parseScore(p1Score)}</h2>
+          <h2 className={styles.top8Score}>
+            {p1Score ? parseScore(p1Score) : 0}
+          </h2>
         </div>
       </div>
 
       <div className={styles.lowerTop8}>
         <div className={styles.top8Entrant}>
-          <h2 className={styles.top8Org}>{concatName(p2Org)}</h2>
-          <h2 className={styles.top8}>{concatName(p2Name, 15)}</h2>
+          <h2 className={styles.top8Org}>{p2Org ? concatName(p2Org) : null}</h2>
+          <h2 className={styles.top8}>
+            {p2Name ? concatName(p2Name, 15) : "TBD"}
+          </h2>
         </div>
         <div className={styles.lowerScoreHolder}>
-          <h2 className={styles.top8Score}>{parseScore(p2Score)}</h2>
+          <h2 className={styles.top8Score}>
+            {p2Score ? parseScore(p2Score) : 0}
+          </h2>
         </div>
       </div>
     </div>
