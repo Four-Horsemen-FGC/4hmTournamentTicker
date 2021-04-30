@@ -1,25 +1,26 @@
 import { Box, Flex, Text, VStack } from "@chakra-ui/layout";
 import React from "react";
 import Top8Match from "../Top8Match/Top8Match";
+import TransparentTop8Match from "../Top8Match/TransparentTop8Match";
 
-const TopEightRound = ({
-  single,
-  data,
-  ...props
-  // single,
-  // matchName,
-  // p1Org,
-  // p2Org,
-  // p1Score,
-  // p2Sore,
-  // p1Name,
-  // p2Name,
-  // ...props
-}) => {
-  console.log(data);
+const TopEightRound = ({ single, data, ...props }) => {
+  // console.log(data);
+
+  data.sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
+
+  // console.log(data);
 
   const grandFinalResetExists =
-    data.length === 2 && data[0].matchName.includes("Grand Final");
+    data.length === 2 &&
+    data?.[0]?.matchName.includes("Grand Final") &&
+    data?.[1]?.p1Name !== ("TBD" || null) &&
+    data?.[1]?.p2Name !== ("TBD" || null);
+
+  const grandFinalData = grandFinalResetExists ? data[1] : data[0];
+
+  const transparent =
+    data.length === 1 && data?.[0]?.matchName.includes("Losers Round");
+
   return (
     <Flex w="full" direction="column" justify="center">
       {single && (
@@ -41,9 +42,9 @@ const TopEightRound = ({
             }}
             borderRadius="5"
           >
-            {}
+            {grandFinalData.matchName}
           </Text>
-          <Top8Match />
+          <Top8Match {...grandFinalData} />
         </VStack>
       )}
       {!single && (
@@ -65,11 +66,17 @@ const TopEightRound = ({
             }}
             borderRadius="5"
           >
-            {}
+            {data[0].matchName}
           </Text>
-          <Top8Match />
+
+          {/* conditional that shifts position of Losers Round set if there's only one */}
+          {transparent ? <TransparentTop8Match /> : <Top8Match {...data[0]} />}
           <Box h="5" />
-          <Top8Match />
+          {transparent ? (
+            <Top8Match {...data[0]} />
+          ) : (
+            <Top8Match {...data[1]} />
+          )}
         </VStack>
       )}
     </Flex>

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Top8Match.module.css";
 import { concatName, parseScore } from "../Top8Body/utils";
 
-function top8Match({
+function TransparentTop8Match({
   matchName,
   p1Org,
   p2Org,
@@ -18,7 +18,7 @@ function top8Match({
   // );
 
   return (
-    <div className={styles.top8GameContainer}>
+    <div className={styles.transparent}>
       {/* {matchName ? containerTag : null} */}
       <div className={styles.upperTop8}>
         <div className={styles.top8Entrant}>
@@ -51,4 +51,4 @@ function top8Match({
   );
 }
 
-export default top8Match;
+export default TransparentTop8Match;

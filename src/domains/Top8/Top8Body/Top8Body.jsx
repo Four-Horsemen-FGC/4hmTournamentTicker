@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./Top8Body.module.css";
 import { useQuery, gql } from "@apollo/client";
-import { Grid, GridItem, Box } from "@chakra-ui/react";
-// import { createComponents, flattenQueryData } from "./utils";
+import { Grid, Box } from "@chakra-ui/react";
 import TopEightRound from "../TopEightRound";
 import { useActiveEventOnce } from "../../../hooks";
 import { Spinner, Center } from "@chakra-ui/react";
-import { flattenQueryData, flattenTop8data } from "./utils";
+import { flattenTop8data } from "./utils";
 
 const MATCH_RESULTS = gql`
   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -83,7 +82,7 @@ const Top8Body = (props) => {
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     // variables: { eventId: 543159, page: 1, perPage: 15 },
     skip: !eventId,
-    variables: { eventId, page: 1, perPage: 30 },
+    variables: { eventId, page: 1, perPage: 17 },
   });
 
   if (loading || !eventId)
@@ -95,10 +94,10 @@ const Top8Body = (props) => {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  if (data) {
-    // console.log(`data`, data);
-    console.log(flattenTop8data(data));
-  }
+  // if (data) {
+  //   console.log(`data`, data);
+  //   console.log(flattenTop8data(data));
+  // }
   let flattenedData = flattenTop8data(data);
 
   return (
