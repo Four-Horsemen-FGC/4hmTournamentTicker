@@ -35,10 +35,10 @@ export const flattenTop8data = (data) => {
     "Losers Final": [],
   };
 
-  console.log(`data.event.sets.nodes`, data.event.sets.nodes);
+  // console.log(`data.event.sets.nodes`, data.event.sets.nodes);
 
   data?.event?.sets?.nodes.forEach((set) => {
-    console.log("inside the Loop");
+    // console.log("inside the Loop");
     if (
       !flattenedData[set.fullRoundText] &&
       !set.fullRoundText.includes("Losers Round") &&

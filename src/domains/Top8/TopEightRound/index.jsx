@@ -3,7 +3,7 @@ import React from "react";
 import Top8Match from "../Top8Match/Top8Match";
 
 const TopEightRound = ({ single, data, ...props }) => {
-  console.log(data);
+  // console.log(data);
 
   data.sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
 

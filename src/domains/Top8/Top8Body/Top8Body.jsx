@@ -97,7 +97,7 @@ const Top8Body = (props) => {
 
   if (data) {
     // console.log(`data`, data);
-    console.log(flattenTop8data(data));
+    // console.log(flattenTop8data(data));
   }
   let flattenedData = flattenTop8data(data);
 
