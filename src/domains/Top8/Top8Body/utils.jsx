@@ -35,14 +35,33 @@ export const flattenTop8data = (data) => {
     "Losers Final": [],
   };
 
+  // ================ CONSOLE.LOG TO CHECK DATA ===================
   // console.log(`data.event.sets.nodes`, data.event.sets.nodes);
 
   data?.event?.sets?.nodes.forEach((set) => {
     // console.log("inside the Loop");
+
+    //conditional that skips the current element if the set isn't relevant to top8
     if (
       !flattenedData[set.fullRoundText] &&
       !set.fullRoundText.includes("Losers Round") &&
       !set.fullRoundText.includes("Grand Final")
+    )
+      return;
+
+    //conditional that skips the current element if the most relevant Winners Final set has already been pushed to the Winners Final array
+    //WHY IS SMASH.GG MAGIC FILTER SO UNPREDICTABLE??!?!?
+    if (
+      set.fullRoundText === "Winners Final" &&
+      flattenedData["Winners Final"].length === 1
+    )
+      return;
+
+    //conditional that skips the current element if the most relevant Losers Final set has already been pushed to the Losers Final array
+    //WHY IS SMASH.GG MAGIC FILTER SO UNPREDICTABLE??!?!?
+    if (
+      set.fullRoundText === "Losers Final" &&
+      flattenedData["Losers Final"].length === 1
     )
       return;
 
@@ -103,7 +122,7 @@ export const createComponents = (games) => {
   ));
 };
 
-export const concatName = (element, size = 5) => {
+export const concatName = (element, size = 4) => {
   return element && element.length > size
     ? element.slice(0, size) + "..."
     : element;

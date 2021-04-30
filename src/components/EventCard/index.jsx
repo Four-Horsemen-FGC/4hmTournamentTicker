@@ -109,7 +109,7 @@ const EventCard = ({
           lineHeight="tight"
           isTruncated
         >
-          {concatName(eventName, 36)}
+          {concatName(eventName, 30)}
         </Text>
 
         <Text>{location}</Text>
