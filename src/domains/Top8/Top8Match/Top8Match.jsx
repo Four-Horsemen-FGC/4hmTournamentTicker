@@ -24,7 +24,7 @@ function top8Match({
         <div className={styles.top8Entrant}>
           <h2 className={styles.top8Org}>{p1Org ? concatName(p1Org) : null}</h2>
           <h2 className={styles.top8}>
-            {p1Name ? concatName(p1Name, 15) : "TBD"}
+            {p1Name ? concatName(p1Name, 18) : "TBD"}
           </h2>
         </div>
         <div className={styles.upperScoreHolder}>
@@ -38,7 +38,7 @@ function top8Match({
         <div className={styles.top8Entrant}>
           <h2 className={styles.top8Org}>{p2Org ? concatName(p2Org) : null}</h2>
           <h2 className={styles.top8}>
-            {p2Name ? concatName(p2Name, 15) : "TBD"}
+            {p2Name ? concatName(p2Name, 18) : "TBD"}
           </h2>
         </div>
         <div className={styles.lowerScoreHolder}>

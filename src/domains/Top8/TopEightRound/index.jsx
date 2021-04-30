@@ -2,24 +2,16 @@ import { Box, Flex, Text, VStack } from "@chakra-ui/layout";
 import React from "react";
 import Top8Match from "../Top8Match/Top8Match";
 
-const TopEightRound = ({
-  single,
-  data,
-  ...props
-  // single,
-  // matchName,
-  // p1Org,
-  // p2Org,
-  // p1Score,
-  // p2Sore,
-  // p1Name,
-  // p2Name,
-  // ...props
-}) => {
+const TopEightRound = ({ single, data, ...props }) => {
   console.log(data);
+
+  data.sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
 
   const grandFinalResetExists =
     data.length === 2 && data[0].matchName.includes("Grand Final");
+
+  const grandFinalData = grandFinalResetExists ? data[1] : data[0];
+
   return (
     <Flex w="full" direction="column" justify="center">
       {single && (
@@ -41,9 +33,9 @@ const TopEightRound = ({
             }}
             borderRadius="5"
           >
-            {}
+            {grandFinalData.matchName}
           </Text>
-          <Top8Match />
+          <Top8Match {...grandFinalData} />
         </VStack>
       )}
       {!single && (
@@ -65,11 +57,11 @@ const TopEightRound = ({
             }}
             borderRadius="5"
           >
-            {}
+            {data[0].matchName}
           </Text>
-          <Top8Match />
+          <Top8Match {...data[0]} />
           <Box h="5" />
-          <Top8Match />
+          <Top8Match {...data[1]} />
         </VStack>
       )}
     </Flex>
