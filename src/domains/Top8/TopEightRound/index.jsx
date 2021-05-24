@@ -42,7 +42,7 @@ const TopEightRound = ({ single, data, ...props }) => {
             }}
             borderRadius="5"
           >
-            {grandFinalData.matchName}
+            {grandFinalData?.matchName}
           </Text>
           <Top8Match {...grandFinalData} />
         </VStack>
@@ -66,7 +66,7 @@ const TopEightRound = ({ single, data, ...props }) => {
             }}
             borderRadius="5"
           >
-            {data[0].matchName}
+            {data?.[0]?.matchName}
           </Text>
 
           {/* conditional that shifts position of Losers Round set if there's only one */}
