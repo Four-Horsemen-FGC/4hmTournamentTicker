@@ -2,7 +2,7 @@ import { Heading } from "@chakra-ui/layout";
 import React from "react";
 // import Logos from '../../components/Logos/Logos.jsx';
 // import eventLogo from '../../assets/images/Logo_36.svg';
-import eventLogo from "../../assets/images/Gen_Logo.png";
+import eventLogo from "../../assets/images/36logo_408x165.png";
 
 import fortressLogo from "../../assets/images/4HM_fortress_logo_171x144.png";
 import typoGraphicLogo from "../../assets/images/4HM_typographic_logo_283x128.png";
