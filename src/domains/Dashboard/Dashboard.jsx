@@ -20,6 +20,7 @@ import { db } from "../../index.js"; // importing firestore instance from index.
 import { useHistory } from "react-router-dom";
 import { EventCardList } from "../../components/EventCard";
 import { DashboardLink } from "../../components/Link";
+import { UpdateTheme } from "./UpdateThemeModal/UpdateTheme";
 
 // MVP
 //[X] Create Cards for events created by user
@@ -82,6 +83,7 @@ const Dashboard = () => {
           <DashboardLink to="/top-eight">Top 8</DashboardLink>
         </HStack>
         <Spacer />
+        <UpdateTheme uid={user.uid} />
         <CreateTickerModal uid={user.uid} />
         <Button colorScheme="red" onClick={signOut}>
           Sign out

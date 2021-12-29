@@ -29,6 +29,8 @@ import "firebase/firestore";
 import "firebase/auth";
 import { useLazyQuery, gql } from "@apollo/client";
 import { db } from "../../../index.js";
+import { FileUpload } from "../../../components/FileUpload/FileUpload.jsx";
+import { useForm } from "react-hook-form";
 
 const TOURNAMENT_EVENTS = gql`
   query getTournamentEvents($tourneySlug: String!) {
@@ -61,6 +63,7 @@ const slugifyTournamentName = (TourneyName) => {
 };
 
 function BasicUsage({ uid, ...props }) {
+  const { register, watch, handleSubmit } = useForm();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [tournamentName, setTournamentName] = useState("");
   const [scrollingMessages, setScrollingMessages] = useState([{ value: "" }]);
@@ -256,6 +259,19 @@ function BasicUsage({ uid, ...props }) {
               {createScrollingMessages(scrollingMessages)}
               <Button onClick={() => addInput()}>Add Message</Button>
             </FormControl>
+            {/* <FileUpload
+              {...register("background")}
+              value={watch("background")}
+            />
+            <Button
+              onClick={handleSubmit(async (data) => {
+                //put in the upload logic from https://firebase.google.com/docs/storage/web/upload-files?authuser=0
+
+                console.log(`${uid}/background/${data.background[0].name}`);
+              })}
+            >
+              submit
+            </Button> */}
           </ModalBody>
 
           <ModalFooter>

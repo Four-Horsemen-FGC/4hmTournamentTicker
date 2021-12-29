@@ -21,6 +21,7 @@ import "firebase/analytics";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 import "@fontsource/amarante";
 import "@fontsource/roboto/500.css";
@@ -54,6 +55,7 @@ firebase.initializeApp(firebaseConfig);
 
 // Initialize firestore
 export const db = firebase.firestore();
+export const storage = firebase.storage();
 
 // --- Data Model is going to look roughly like this ---
 // ID auto generated
