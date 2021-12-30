@@ -3,7 +3,7 @@ import styles from "./Top8Body.module.css";
 import { useQuery, gql } from "@apollo/client";
 import { Grid, Box } from "@chakra-ui/react";
 import TopEightRound from "../TopEightRound";
-import { useActiveEventOnce } from "../../../hooks";
+import { useActiveEventOnce, useEntryOnce } from "../../../hooks";
 import { Spinner, Center } from "@chakra-ui/react";
 import { flattenTop8data } from "./utils";
 
@@ -77,6 +77,7 @@ const MATCH_RESULTS = gql`
 
 const Top8Body = (props) => {
   const { eventId } = useActiveEventOnce() || {};
+  const topEightURL = useEntryOnce("topEight") || {};
 
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
@@ -101,7 +102,7 @@ const Top8Body = (props) => {
   let flattenedData = flattenTop8data(data);
 
   return (
-    <div className={styles.flex}>
+    <Box bgImage={`url(${topEightURL})`} className={styles.flex}>
       <>
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
           {/* <Box w="full" h="100" bg="blue.500" /> */}
@@ -142,7 +143,7 @@ const Top8Body = (props) => {
           />
         </Grid>
       </>
-    </div>
+    </Box>
   );
 };
 

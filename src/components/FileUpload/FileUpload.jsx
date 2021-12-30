@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
-import { Button, FormLabel } from "@chakra-ui/react";
+import { AiOutlineUpload } from "react-icons/ai";
+import { IconButton, FormLabel } from "@chakra-ui/react";
 import { InputGroup } from "@chakra-ui/input";
 import { useRef } from "react";
 // import { useForm } from "react-hook-form";
@@ -20,10 +21,10 @@ export const FileUpload = forwardRef(({ value, ...props }, ref) => {
           inputRef.current = e;
         }}
       />
+      <IconButton icon={<AiOutlineUpload />} />
       {value && value[0] && value[0].name && (
         <FormLabel>{value[0].name}</FormLabel>
       )}
-      <Button>upload</Button>
     </InputGroup>
   );
 });

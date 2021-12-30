@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, FormLabel, HStack } from "@chakra-ui/react";
-import { db, storage } from "../../index";
+import { storage } from "../../index";
 import { FileUpload } from "../FileUpload/FileUpload";
 import { useForm } from "react-hook-form";
 
@@ -8,8 +8,8 @@ export const FormSection = ({ uid, destination, ...props }) => {
   const { register, watch, handleSubmit } = useForm();
   return (
     <>
-      <FormLabel>{`${destination}`}</FormLabel>
-      <HStack spacing="24px">
+      <FormLabel>upload new {destination}</FormLabel>
+      <HStack spacing="24px" justify="center">
         <FileUpload {...register(destination)} value={watch(destination)} />
         <Button
           onClick={handleSubmit(async (data) => {
@@ -19,6 +19,7 @@ export const FormSection = ({ uid, destination, ...props }) => {
               .child(`${uid}/${destination}/${data[destination][0].name}`)
               .put(data[destination][0]);
           })}
+          variant="ghost"
         >
           submit
         </Button>

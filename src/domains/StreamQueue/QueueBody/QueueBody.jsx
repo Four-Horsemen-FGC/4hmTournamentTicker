@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import { useActiveEventOnce } from "../../../hooks";
-import { Spinner, Center } from "@chakra-ui/react";
+import { useActiveEventOnce, useEntryOnce } from "../../../hooks";
+import { Spinner, Center, Box } from "@chakra-ui/react";
 import QueueSet from "../QueueSet/QueueSet";
 import styles from "./QueueBody.module.css";
 
@@ -70,6 +70,7 @@ const flattenQuery = (data) => {
 
 function QueueBody() {
   const { tournamentId } = useActiveEventOnce() || {};
+  const streamQueueURL = useEntryOnce("streamQueue") || {};
   // console.log(`tournamentId`, tournamentId);
 
   // const { loading, error, data } = useQuery(MATCH_RESULTS, {
@@ -117,11 +118,11 @@ function QueueBody() {
   const noUpcomingMatches = <h2>No Upcoming Matches :-(</h2>;
 
   return (
-    <div className={styles.QueueBodyFlex}>
+    <Box bgImage={`url(${streamQueueURL})`} className={styles.QueueBodyFlex}>
       <div className={styles.flex}>
         {!upcomingMatches.length ? noUpcomingMatches : upcomingMatches}
       </div>
-    </div>
+    </Box>
   );
 }
 

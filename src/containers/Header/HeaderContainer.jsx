@@ -1,48 +1,42 @@
 import { Heading } from "@chakra-ui/layout";
-import React, { useEffect, useState } from "react";
+import { Image } from "@chakra-ui/react";
+import React from "react";
 // import Logos from '../../components/Logos/Logos.jsx';
 // import eventLogo from '../../assets/images/Logo_36.svg';
-import eventLogo from "../../assets/images/36logo_408x165.png";
 
-import fortressLogo from "../../assets/images/4HM_fortress_logo_171x144.png";
+// import fortressLogo from "../../assets/images/4HM_fortress_logo_171x144.png";
 // import typoGraphicLogo from "../../assets/images/4HM_typographic_logo_283x128.png";
 
 import styles from "./HeaderContainer.module.css";
-import { storage } from "../..";
+import { useEntryOnce } from "../../hooks";
 
 const HeaderContainer = (props) => {
-  const [logo, setLogo] = useState("");
+  const orgLogoOne = useEntryOnce("orgLogoOne");
+  const orgLogoTwo = useEntryOnce("orgLogoTwo");
+  const eventLogo = useEntryOnce("eventLogo");
 
-  useEffect(() => {
-    const getLogos = async () => {
-      let storageRef = await storage.ref();
-      let newLogo = await storageRef.child("Asset 6.png").getDownloadURL();
-      setLogo(newLogo);
-    };
-    getLogos();
-  }, []);
   return (
     <div className={styles.headerContainer}>
       {/* <Logos /> */}
       <div className={styles.space}>
         <div className={styles.logoDiv}>
-          <img
+          <Image
             className={styles.orgLogos}
-            src={logo}
+            src={orgLogoOne}
             alt="typgraphicLogo"
-          ></img>
+          ></Image>
         </div>
         <div className={styles.logoDiv}>
-          <img
+          <Image
             className={styles.orgLogos}
-            src={fortressLogo}
+            src={orgLogoTwo}
             alt="fortressLogo"
-          ></img>
+          ></Image>
         </div>
       </div>
       <div className={styles.flex}>
         <div className={styles.eventLogo}>
-          <img src={eventLogo} alt="eventLogo" />
+          <Image src={eventLogo} alt="eventLogo" />
         </div>
       </div>
       <div className={styles.flex}>
