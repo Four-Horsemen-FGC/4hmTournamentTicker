@@ -5,6 +5,8 @@ import styles from "./MatchesContainer.module.css";
 import { flattenQueryData } from "../../domains/Top8/Top8Body/utils";
 import { useActiveEventOnce } from "../../hooks/index";
 import { Spinner, Center } from "@chakra-ui/react";
+import { useEntryOnce } from "../../hooks/useEntryOnce";
+import { Box } from "@chakra-ui/react";
 
 const MATCH_RESULTS = gql`
   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -46,13 +48,15 @@ const MATCH_RESULTS = gql`
 
 function MatchesContainer() {
   const { eventId } = useActiveEventOnce() || {};
-  console.log(`eventId`, eventId);
+  const RecentMatchesURL = useEntryOnce("recentMatches") || {};
+  // console.log(`eventId`, eventId);
+  // console.log(`RecentMatchesURL`, RecentMatchesURL);
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     skip: !eventId,
     variables: { eventId, page: 1, perPage: 8 },
   });
 
-  if (loading || !eventId)
+  if (loading || !eventId || !RecentMatchesURL)
     return (
       <Center h="full" w="full">
         <Spinner />
@@ -62,7 +66,7 @@ function MatchesContainer() {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  console.log(`data`, data);
+  // console.log(`data`, data);
 
   const queryResult = flattenQueryData(data?.event?.sets.nodes)
     // .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id))
@@ -82,9 +86,12 @@ function MatchesContainer() {
     });
 
   return (
-    <div className={styles.matchesContainer}>
-      <div className={styles.matchesGrid}>{queryResult}</div>
-    </div>
+    <Box
+      bgImage={`url(${RecentMatchesURL})`}
+      className={styles.matchesContainer}
+    >
+      <Box className={styles.matchesGrid}>{queryResult}</Box>
+    </Box>
   );
 }
 
