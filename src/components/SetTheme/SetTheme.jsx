@@ -12,8 +12,6 @@ export const SetTheme = ({
 }) => {
   const [images, setImages] = useState([]);
   const [imageNames, setImageNames] = useState([]);
-  // const [loadingState, setLoadingState] = useState(false);
-  // console.log(loadingState);
 
   useEffect(() => {
     const getImages = async () => {
@@ -26,21 +24,14 @@ export const SetTheme = ({
         console.log(item.name);
         setImageNames((currentState) => [item.name, ...currentState]);
         setImages((currentState) => [imageUrl, ...currentState]);
-        // setLoadingState(true);
       });
     };
     getImages();
   }, []);
 
-  // let imagesToDisplay = images.map((item) => {
-  //   return <Image borderRadius="md" src={item} />;
-  // });
-
-  // console.log(loadingState);
   return (
     <>
       <HStack height={100} spacing={3}>
-        {/* {loadingState ? imagesToDisplay : <Spinner />} */}
         <ThemeMenu
           purpose={purpose}
           uid={uid}

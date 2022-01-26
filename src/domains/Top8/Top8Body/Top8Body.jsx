@@ -44,45 +44,12 @@ const MATCH_RESULTS = gql`
   }
 `;
 
-// const MATCH_RESULTS = gql`
-//   query PhaseQuery($top8Id: ID!) {
-//     phase(id: $top8Id) {
-//       sets {
-//         nodes {
-//           fullRoundText
-//           identifier
-//           slots {
-//             entrant {
-//               participants {
-//                 prefix
-//                 gamerTag
-//               }
-//             }
-//             standing {
-//               stats {
-//                 score {
-//                   value
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
-// 4hm test tournament eventId: 543706
-// cloud's eventId: 547481
-// frostyFaustings MVC3: 543159
-
 const Top8Body = (props) => {
   const { eventId } = useActiveEventOnce() || {};
   const topEightURL = useEntryOnce("topEight") || -1;
 
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
-    // variables: { eventId: 543159, page: 1, perPage: 15 },
     skip: !eventId,
     variables: { eventId, page: 1, perPage: 17 },
   });
@@ -96,10 +63,6 @@ const Top8Body = (props) => {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  // if (data) {
-  //   console.log(`data`, data);
-  //   console.log(flattenTop8data(data));
-  // }
   let flattenedData = flattenTop8data(data);
 
   return (
@@ -111,7 +74,6 @@ const Top8Body = (props) => {
     >
       <>
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          {/* <Box w="full" h="100" bg="blue.500" /> */}
           <TopEightRound
             key="Winners Semi-Final"
             data={flattenedData["Winners Semi-Final"]}

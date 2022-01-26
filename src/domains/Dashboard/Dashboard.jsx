@@ -16,14 +16,13 @@ import {
 } from "@chakra-ui/react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useDocument } from "react-firebase-hooks/firestore";
-import { db } from "../../index.js"; // importing firestore instance from index.js. is there a more elegant way to get the database in children components????
+import { db } from "../../index.js";
 import { useHistory } from "react-router-dom";
 import { EventCardList } from "../../components/EventCard";
 import { DashboardLink } from "../../components/Link";
 import { UpdateTheme } from "./UpdateThemeModal/UpdateTheme";
 
 const Dashboard = () => {
-  // 1. user changes: rerender
   const [user, loading] = useAuthState(firebase.auth());
   const { push } = useHistory();
 
@@ -31,16 +30,11 @@ const Dashboard = () => {
     push("/");
     firebase.auth().signOut();
   };
-
-  // 2. user changes: rerender
-  //can get the document that has the corresponding userId but having trouble updating document (see CreateTickerModal.jsx)
   const [value] = useDocument(db.doc(`users/${user.uid}`), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
   const events = value?.data().events;
-
-  // console.log(`events`, events);
 
   if (loading) {
     return <Spinner />;

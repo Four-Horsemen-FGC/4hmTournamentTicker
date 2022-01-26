@@ -43,15 +43,9 @@ const MATCH_RESULTS = gql`
   }
 `;
 
-// 4hm test tournament eventId: 543706
-// cloud's eventId: 547481
-// frostyFaustings MVC3: 543159
-
 function MatchesContainer() {
   const { eventId } = useActiveEventOnce() || {};
   const RecentMatchesURL = useEntryOnce("recentMatches") || -1;
-  // console.log(`eventId`, eventId);
-  // console.log(`RecentMatchesURL`, RecentMatchesURL);
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
     skip: !eventId,
     variables: { eventId, page: 1, perPage: 8 },
@@ -67,11 +61,8 @@ function MatchesContainer() {
   if (error)
     <p className={styles.loadingAndError}>Error Boi ${error.message}</p>;
 
-  // console.log(`data`, data);
-
-  const queryResult = flattenQueryData(data?.event?.sets.nodes)
-    // .sort((gameA, gameB) => gameA.id.localeCompare(gameB.id))
-    .map((element) => {
+  const queryResult = flattenQueryData(data?.event?.sets.nodes).map(
+    (element) => {
       return (
         <SetContainer
           key={element.id}
@@ -84,7 +75,8 @@ function MatchesContainer() {
           p2Score={element.p2Score}
         />
       );
-    });
+    }
+  );
 
   return (
     <Box

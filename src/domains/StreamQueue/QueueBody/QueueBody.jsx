@@ -6,31 +6,6 @@ import QueueSet from "../QueueSet/QueueSet";
 import styles from "./QueueBody.module.css";
 import defaultImage from "../../../assets/images/bg_comingup_4096x2160.jpg";
 
-// const MATCH_RESULTS = gql`
-//   query StreamQueueOnTournament($tourneyId: String!) {
-//     tournament(slug: $tourneyId) {
-//       id
-//       streamQueue {
-//         stream {
-//           streamSource
-//           streamName
-//         }
-//         sets {
-//           id
-//           slots {
-//             entrant {
-//               participants {
-//                 prefix
-//                 gamerTag
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
-
 const MATCH_RESULTS = gql`
   query StreamQueueOnTournament($tourneyId: ID!) {
     streamQueue(tournamentId: $tourneyId) {
@@ -65,26 +40,11 @@ const flattenQuery = (data) => {
   }
 };
 
-//"tournament/4hm-test-tournament"
-//"tournament/the-cloud-series-east-1"
-// frosty faustings: frosty-faustings-xiii-2021-online
-
 function QueueBody() {
   const { tournamentId } = useActiveEventOnce() || {};
   const streamQueueURL = useEntryOnce("streamQueue") || -1;
-  // console.log(`tournamentId`, tournamentId);
-
-  // const { loading, error, data } = useQuery(MATCH_RESULTS, {
-  //   variables: { tourneyId: "frosty-faustings-xiii-2021-online" },
-  // });
-
-  // if (loading) {
-  //   console.log("fetching data from smash.gg ... hang about boi");
-  //   return <p>loading...</p>;
-  // }
 
   const { loading, data } = useQuery(MATCH_RESULTS, {
-    // variables: { tournamentId: 543159, page: 1, perPage: 15 },
     skip: !tournamentId,
     variables: { tourneyId: tournamentId },
   });
@@ -96,11 +56,6 @@ function QueueBody() {
       </Center>
     );
   }
-
-  // if (error) {
-  //   console.log(`error occured. RiP in Peppercinis. error: ${error}`);
-  //   return <p>an error has occured, please try again.</p>;
-  // }
 
   console.log(`data`, data?.streamQueue?.[0]?.sets);
   const upcomingMatches = flattenQuery(data?.streamQueue?.[0]?.sets || [])

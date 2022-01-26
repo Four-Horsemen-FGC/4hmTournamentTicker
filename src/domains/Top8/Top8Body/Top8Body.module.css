@@ -5,13 +5,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
   padding: 0px 3vw 0px 3vw;
   margin: 0;
   border: 20px solid black;
   border-radius: 70px;
   background-color: black;
-  /* background-image: url(../../../assets/images/bg_top8_4096x2160.jpg); */
   background-size: 100% auto;
   background-repeat: no-repeat;
 }
@@ -21,7 +19,6 @@
   margin: 10px 0;
   width: 85%;
   height: 45%;
-  /* border: 1px solid orange; */
 }
 
 .grid,
@@ -34,7 +31,6 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2 1fr);
   gap: 1vh 1vw;
-  /* border: 1px solid palegoldenrod; */
 }
 
 .gridLoser {

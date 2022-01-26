@@ -5,7 +5,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import "firebase/auth";
 import { Image, Center, Button, Flex, Text, Input } from "@chakra-ui/react";
 import typoGraphicLogo from "../../assets/images/Logo_4HM_typo.svg";
-// import styles from "./Landing.module.css";
 import { db } from "../../index";
 
 const signInWithGoogle = () => {
@@ -21,7 +20,6 @@ const Landing = () => {
   const history = useHistory();
 
   useEffect(() => {
-    // IIFE
     (async () => {
       if (user) {
         const dbUser = await db.collection("users").doc(user.uid).get();

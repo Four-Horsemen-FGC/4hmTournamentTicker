@@ -4,11 +4,7 @@ import Top8Match from "../Top8Match/Top8Match";
 import TransparentTop8Match from "../Top8Match/TransparentTop8Match";
 
 const TopEightRound = ({ single, data, ...props }) => {
-  // console.log(data);
-
   data.sort((gameA, gameB) => gameA.id.localeCompare(gameB.id));
-
-  // console.log(data);
 
   const grandFinalResetExists =
     data.length === 2 &&

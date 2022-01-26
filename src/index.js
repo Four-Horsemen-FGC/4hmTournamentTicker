@@ -38,7 +38,6 @@ import theme from "./theme";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// TODO: Replace the following with your app's Firebase project configuration
 // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
 const firebaseConfig = {
   apiKey: "AIzaSyAa24XSUkWBPh56SUELjBaKdpxH6-m5buM",
@@ -112,8 +111,6 @@ const App = () => {
             <ProtectedRoute path="/recent-matches">
               <MainContainer />
             </ProtectedRoute>
-
-            {/* <Route path="/top-eight">{user ? <Top8 /> : <Landing />}</Route> */}
           </Switch>
         </Router>
       </ChakraProvider>

@@ -17,11 +17,9 @@ h1 {
   display: flex;
   justify-content: space-between;
   padding: 10px 3em;
-  /* border-bottom: 2px solid #efc406; */
   background-image: url(../../assets/images/bg_header_1920x186.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  /* background-color: rgb(3, 252, 198, 0.3); */
 }
 
 .flex,
@@ -31,7 +29,6 @@ h1 {
   height: 100%;
   justify-content: center;
   align-content: center;
-  /* border: 1px solid orange; */
 }
 
 .space {
@@ -46,7 +43,6 @@ h1 {
   height: 100%;
   min-width: 50%;
   max-width: 50%;
-  /* border: 1px solid orange; */
 }
 
 .logoDiv {
@@ -55,7 +51,6 @@ h1 {
 
 .orgLogos {
   padding: 13px;
-  /* border: 1px solid orange; */
 }
 .eventLogo {
   min-width: 90%;

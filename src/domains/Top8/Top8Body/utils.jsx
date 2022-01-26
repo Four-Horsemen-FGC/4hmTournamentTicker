@@ -16,15 +16,7 @@ export const flattenQueryData = (data) => {
   });
 };
 
-// const findLosersRound = (dataArray) => {
-//   dataArray.filter(dataArray.event.sets.nodes);
-// };
-
 export const flattenTop8data = (data) => {
-  // const top8Exists = !!data?.event?.phases.filter(
-  //   (phase) => phase.name === "Top 8"
-  // ).length;
-
   let flattenedData = {
     "Grand Final": [],
     "Winners Final": [],
@@ -35,12 +27,7 @@ export const flattenTop8data = (data) => {
     "Losers Final": [],
   };
 
-  // ================ CONSOLE.LOG TO CHECK DATA ===================
-  // console.log(`data.event.sets.nodes`, data.event.sets.nodes);
-
   data?.event?.sets?.nodes.forEach((set) => {
-    // console.log("inside the Loop");
-
     //conditional that skips the current element if the set isn't relevant to top8
     if (
       !flattenedData[set.fullRoundText] &&
@@ -50,7 +37,6 @@ export const flattenTop8data = (data) => {
       return;
 
     //conditional that skips the current element if the most relevant Winners Final set has already been pushed to the Winners Final array
-    //WHY IS SMASH.GG MAGIC FILTER SO UNPREDICTABLE??!?!?
     if (
       set.fullRoundText === "Winners Final" &&
       flattenedData["Winners Final"].length === 1
@@ -58,7 +44,6 @@ export const flattenTop8data = (data) => {
       return;
 
     //conditional that skips the current element if the most relevant Losers Final set has already been pushed to the Losers Final array
-    //WHY IS SMASH.GG MAGIC FILTER SO UNPREDICTABLE??!?!?
     if (
       set.fullRoundText === "Losers Final" &&
       flattenedData["Losers Final"].length === 1

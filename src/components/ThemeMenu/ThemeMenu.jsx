@@ -41,17 +41,8 @@ export const ThemeMenu = ({
     return result;
   };
 
-  // const createMenuItems = (names, urls) => {
-  //   let result = [];
-  //   for (let i = 0; i < imgArray.length; i++) {
-  //     result.push(<MenuItemOption ></MenuItemOption>{ name: imgNames[i], url: imgArray[i] });
-  //   }
-  //   return
-  // };
-
   return (
     <>
-      {/* <Image borderRadius="md" src={item} /> */}
       <Menu>
         <MenuButton as={Button}>{purpose}</MenuButton>
         <MenuList minWidth="240px">

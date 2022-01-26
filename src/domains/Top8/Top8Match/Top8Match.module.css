@@ -6,7 +6,6 @@
   align-items: flex-start;
   height: 100%;
   width: 100%;
-  /* border: 1px solid paleturquoise; */
 }
 
 .transparent {
@@ -68,7 +67,6 @@
   display: flex;
   flex-direction: row;
   margin-left: 0.1vw;
-  /* margin: .3vw; */
 }
 
 .upperTop8,
@@ -78,7 +76,6 @@
   margin-bottom: 0.2vh;
   overflow: hidden;
   position: relative;
-  /* margin: 4px 0px; */
   display: flex;
   justify-content: flex-start;
   align-items: center;

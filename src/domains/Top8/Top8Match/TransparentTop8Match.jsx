@@ -11,15 +11,8 @@ function TransparentTop8Match({
   p1Name,
   p2Name,
 }) {
-  // const containerTag = (
-  //   <div className={styles.tag}>
-  //     <h3 className={styles.h3Margin}>{matchName}</h3>
-  //   </div>
-  // );
-
   return (
     <div className={styles.transparent}>
-      {/* {matchName ? containerTag : null} */}
       <div className={styles.upperTop8}>
         <div className={styles.top8Entrant}>
           <h2 className={styles.top8Org}>{p1Org ? concatName(p1Org) : null}</h2>

@@ -4,13 +4,6 @@ import { db } from "../../index";
 import { concatName } from "../../domains/Top8/Top8Body/utils";
 import firebase from "firebase/app";
 
-// eventId: 537272
-// eventName: "Guilty Gear XX Accent Core +R"
-// location: "online"
-// messages: (3) ["77", "89888", "99999"]
-// top8Id: 895216
-// tournamentName: "Frosty Faustings XIII 2021 - Online"
-
 const EventCard = ({
   eventId,
   eventName,

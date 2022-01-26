@@ -53,8 +53,6 @@ const TOURNAMENT_EVENTS = gql`
   }
 `;
 
-//Frosty Fasutings 2021: Frosty Faustings XIII 2021 - Online
-
 // take tournament name and format it for graphql query
 const slugifyTournamentName = (TourneyName) => {
   return TourneyName.replace(/(\s|-)+/g, "-").toLowerCase();
@@ -83,7 +81,6 @@ function BasicUsage({ uid, ...props }) {
   const [dbPayload, setDbPayload] = useState(initialState);
 
   const parseMessagesAndSend = async (messages, userId) => {
-    // console.log(messages);
     let messagesPayload = [];
     messages.forEach((element) => {
       if (element.value) {
@@ -93,7 +90,6 @@ function BasicUsage({ uid, ...props }) {
 
     const thing = { ...dbPayload, messages: messagesPayload };
 
-    // If you need messages in state then keep else delete
     setDbPayload({
       ...dbPayload,
       messages: messagesPayload ?? ["Heaven or Hell, let's rock"],
@@ -162,7 +158,6 @@ function BasicUsage({ uid, ...props }) {
     let events = queryData.events;
 
     return events.map((element, idx) => {
-      // console.log(`element.phases`, element.phases);
       let top8id = element.phases[element.phases.length - 1].id;
       let imageUrl = element?.videogame?.images[0]?.url;
       return (
@@ -190,10 +185,6 @@ function BasicUsage({ uid, ...props }) {
       );
     });
   };
-
-  // console.log(`tournamentName: ${tournamentName}`);
-  // console.log(dbPayload);
-  // console.table(scrollingMessages);
 
   return (
     <>

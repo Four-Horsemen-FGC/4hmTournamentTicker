@@ -11,9 +11,7 @@
   border-left: 20px solid black;
   border-right: 20px solid black;
   border-radius: 0 0 50px 50px;
-  /* background-image: url(../../assets/images/bg_recent_4096x2160.jpg); */
   background-position: center bottom;
   background-size: 100% auto;
   overflow: hidden;
-  /* background-color: rgb(210, 3, 252, 0.3); */
 }

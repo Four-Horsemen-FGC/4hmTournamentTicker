@@ -4,7 +4,6 @@
   align-items: center;
   width: 90%;
   filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.6));
-  /* border: 1px solid orange; */
 }
 
 .playerOne,
@@ -13,7 +12,6 @@
   margin-bottom: 2vh;
   margin-right: -2.8vw;
   width: 100%;
-  /* box-sizing: border-box; */
   display: flex;
   justify-content: center;
   padding: 5vh 4vw;
@@ -30,7 +28,6 @@
 }
 
 .playerTwo {
-  /* justify-content: flex-end; */
   margin-right: 0;
   margin-left: -2.8vw;
   background: linear-gradient(

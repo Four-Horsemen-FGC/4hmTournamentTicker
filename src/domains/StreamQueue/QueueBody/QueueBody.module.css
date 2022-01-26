@@ -6,12 +6,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding: 100px; */
   margin: 0;
   border: 20px solid black;
   border-radius: 70px;
-  /* background-color: rgb(3, 211, 252, 0.3); */
-  /* background-image: url(../../../assets/images/bg_comingup_4096x2160.jpg); */
   background-size: 100% auto;
   background-repeat: no-repeat;
 }
@@ -24,6 +21,4 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding: 100px; */
-  /* background-color: cadetblue; */
 }
