@@ -2,18 +2,17 @@ import { Heading } from "@chakra-ui/layout";
 import { Image } from "@chakra-ui/react";
 import React from "react";
 // import Logos from '../../components/Logos/Logos.jsx';
-// import eventLogo from '../../assets/images/Logo_36.svg';
-
-// import fortressLogo from "../../assets/images/4HM_fortress_logo_171x144.png";
-// import typoGraphicLogo from "../../assets/images/4HM_typographic_logo_283x128.png";
+import ChambersLogo from "../../assets/images/Logo_36.svg";
+import fortressLogo from "../../assets/images/4HM_fortress_logo_171x144.png";
+import typoGraphicLogo from "../../assets/images/4HM_typographic_logo_283x128.png";
 
 import styles from "./HeaderContainer.module.css";
 import { useEntryOnce } from "../../hooks";
 
 const HeaderContainer = (props) => {
-  const orgLogoOne = useEntryOnce("orgLogoOne");
-  const orgLogoTwo = useEntryOnce("orgLogoTwo");
-  const eventLogo = useEntryOnce("eventLogo");
+  const orgLogoOne = useEntryOnce("orgLogoOne") || -1;
+  const orgLogoTwo = useEntryOnce("orgLogoTwo") || -1;
+  const eventLogo = useEntryOnce("eventLogo") || -1;
 
   return (
     <div className={styles.headerContainer}>
@@ -22,25 +21,38 @@ const HeaderContainer = (props) => {
         <div className={styles.logoDiv}>
           <Image
             className={styles.orgLogos}
-            src={orgLogoOne}
+            src={orgLogoOne !== -1 ? orgLogoOne : typoGraphicLogo}
             alt="typgraphicLogo"
           ></Image>
         </div>
         <div className={styles.logoDiv}>
           <Image
             className={styles.orgLogos}
-            src={orgLogoTwo}
+            src={orgLogoTwo !== -1 ? orgLogoTwo : fortressLogo}
             alt="fortressLogo"
           ></Image>
         </div>
       </div>
       <div className={styles.flex}>
         <div className={styles.eventLogo}>
-          <Image src={eventLogo} alt="eventLogo" />
+          <Image
+            src={eventLogo !== -1 ? eventLogo : ChambersLogo}
+            alt="eventLogo"
+          />
         </div>
       </div>
       <div className={styles.flex}>
-        <Heading size="3xl" alignSelf="center">
+        <Heading
+          fontSize={{
+            sm: "16px",
+            md: "24px",
+            lg: "36px",
+            xl: "52px",
+            "2xl": "85px",
+            "3xl": "100px",
+          }}
+          alignSelf="center"
+        >
           {props.heading}
         </Heading>
       </div>

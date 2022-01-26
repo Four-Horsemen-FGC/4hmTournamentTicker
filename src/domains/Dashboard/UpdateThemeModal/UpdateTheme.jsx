@@ -32,36 +32,42 @@ export const UpdateTheme = ({ uid, ...props }) => {
           <ModalBody>
             <HStack>
               <SetTheme
+                key="background 1"
                 uid={uid}
                 destination="background"
                 purpose="Recent Matches"
                 firestoreKey="recentMatches"
               />
               <SetTheme
+                key="background 2"
                 uid={uid}
                 destination="background"
                 purpose="Stream Queue"
                 firestoreKey="streamQueue"
               />
               <SetTheme
+                key="background 3"
                 uid={uid}
                 destination="background"
                 purpose="Top 8"
                 firestoreKey="topEight"
               />
               <SetTheme
+                key="orgLogo 1"
                 uid={uid}
                 destination="orgLogo"
                 purpose="Org Logo 1"
                 firestoreKey="orgLogoOne"
               />
               <SetTheme
+                key="orgLogo 2"
                 uid={uid}
                 destination="orgLogo"
                 purpose="Org Logo 2"
                 firestoreKey="orgLogoTwo"
               />
               <SetTheme
+                key="eventLogo"
                 uid={uid}
                 destination="eventLogo"
                 purpose="Event Logo"

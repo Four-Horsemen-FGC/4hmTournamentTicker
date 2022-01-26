@@ -7,11 +7,13 @@ import { createBreakpoints } from "@chakra-ui/theme-tools";
 
 // This is the default breakpoint
 const breakpoints = createBreakpoints({
+  xs: "16em",
   sm: "30em",
   md: "48em",
   lg: "62em",
-  xl: "120em",
-  "2xl": "160em",
+  xl: "80em",
+  "2xl": "120em",
+  "3xl": "150em",
 });
 
 // 2. Add your color mode config

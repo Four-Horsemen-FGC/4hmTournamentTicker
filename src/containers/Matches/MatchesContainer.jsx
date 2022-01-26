@@ -7,6 +7,7 @@ import { useActiveEventOnce } from "../../hooks/index";
 import { Spinner, Center } from "@chakra-ui/react";
 import { useEntryOnce } from "../../hooks/useEntryOnce";
 import { Box } from "@chakra-ui/react";
+import defaultImage from "../../assets/images/bg_recent_4096x2160.jpg";
 
 const MATCH_RESULTS = gql`
   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -48,7 +49,7 @@ const MATCH_RESULTS = gql`
 
 function MatchesContainer() {
   const { eventId } = useActiveEventOnce() || {};
-  const RecentMatchesURL = useEntryOnce("recentMatches") || {};
+  const RecentMatchesURL = useEntryOnce("recentMatches") || -1;
   // console.log(`eventId`, eventId);
   // console.log(`RecentMatchesURL`, RecentMatchesURL);
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
@@ -87,7 +88,11 @@ function MatchesContainer() {
 
   return (
     <Box
-      bgImage={`url(${RecentMatchesURL})`}
+      bgImage={
+        RecentMatchesURL === -1
+          ? `url(${defaultImage})`
+          : `url(${RecentMatchesURL})`
+      }
       className={styles.matchesContainer}
     >
       <Box className={styles.matchesGrid}>{queryResult}</Box>

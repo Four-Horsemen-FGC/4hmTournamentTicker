@@ -30,6 +30,8 @@ export const ThemeMenu = ({
     for (let i = 0; i < imgNames.length; i++) {
       result.push(
         <MenuItemOption
+          key={`${imgArray[i]}${i}`}
+          value={imgNames[i]}
           onClick={() => updateThemeItem(imgArray[i], firestoreKey)}
         >
           {imgNames[i]}

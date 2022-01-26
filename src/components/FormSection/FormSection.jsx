@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, FormLabel, HStack } from "@chakra-ui/react";
+import { Button, FormLabel, HStack, useToast } from "@chakra-ui/react";
 import { storage } from "../../index";
 import { FileUpload } from "../FileUpload/FileUpload";
 import { useForm } from "react-hook-form";
 
 export const FormSection = ({ uid, destination, ...props }) => {
+  const toast = useToast();
   const { register, watch, handleSubmit } = useForm();
   return (
     <>
@@ -13,11 +14,17 @@ export const FormSection = ({ uid, destination, ...props }) => {
         <FileUpload {...register(destination)} value={watch(destination)} />
         <Button
           onClick={handleSubmit(async (data) => {
-            //put in the upload logic from https://firebase.google.com/docs/storage/web/upload-files?authuser=0
             await storage
               .ref()
               .child(`${uid}/${destination}/${data[destination][0].name}`)
               .put(data[destination][0]);
+            toast({
+              title: "File uploaded.",
+              description: `uploaded ${data[destination][0].name} to ${destination}`,
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
           })}
           variant="ghost"
         >

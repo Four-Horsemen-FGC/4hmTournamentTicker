@@ -6,6 +6,7 @@ import TopEightRound from "../TopEightRound";
 import { useActiveEventOnce, useEntryOnce } from "../../../hooks";
 import { Spinner, Center } from "@chakra-ui/react";
 import { flattenTop8data } from "./utils";
+import defaultImage from "../../../assets/images/bg_top8_4096x2160.jpg";
 
 const MATCH_RESULTS = gql`
   query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
@@ -77,7 +78,7 @@ const MATCH_RESULTS = gql`
 
 const Top8Body = (props) => {
   const { eventId } = useActiveEventOnce() || {};
-  const topEightURL = useEntryOnce("topEight") || {};
+  const topEightURL = useEntryOnce("topEight") || -1;
 
   // invoke useQuery to ping smash.gg for top8 results
   const { loading, error, data } = useQuery(MATCH_RESULTS, {
@@ -102,7 +103,12 @@ const Top8Body = (props) => {
   let flattenedData = flattenTop8data(data);
 
   return (
-    <Box bgImage={`url(${topEightURL})`} className={styles.flex}>
+    <Box
+      bgImage={
+        topEightURL === -1 ? `url(${defaultImage})` : `url(${topEightURL})`
+      }
+      className={styles.flex}
+    >
       <>
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
           {/* <Box w="full" h="100" bg="blue.500" /> */}
