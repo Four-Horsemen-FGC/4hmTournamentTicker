@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# Four Horsemen Tournament Ticker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<center><img src='./src/assets/images/main4hmLogo.png' width=75%></center>
 
-## Available Scripts
+The Four Horsemen Tournament Ticker is a web application that provides dynamically populated stream views by leveraging data from [smash.gg's GraphQL API](https://developer.smash.gg/docs/intro).
 
-In the project directory, you can run:
+## Running the application
 
-### `npm start`
+After forking and cloning the repo, first install dependencies with `npm install` and open up a dev environment by running `npm start`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+# How to Use the Ticker
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### The Landing Page
 
-### `npm test`
+For first time or signed out users, the application will take you to a landing page where you will need to sign in with a google account as well as input an admin password. For this build of the application, the password is `RedMonitorGrapefruit` .
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### The Dashboard
 
-### `npm run build`
+Once you've successfully logged in, you'll be directed to the dashboard where you can navigate to the three currently available views (recent matches, Stream Queue and Top 8), create and delete events , and edit the theme of your views.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Creating a New Event
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Click the `Create new ticker` button on the dashboard and a modal will open and allow you to choose which event in a tournament to track.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<center><img src='./src/assets/images/readmeAssets/createTickerModal.png' width=75%></center>
 
-### `npm run eject`
+2. copy paste the name of your tournament as it appears on the smash.gg page or from the url on its page. While copying the tournament name as it appears on the page works and will be formatted for the query to the api, the more fool proof approach is to use the slug in the url.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+   For example, in `https://smash.gg/tournament/frosty-faustings-xiv-2022/details`,\
+   you would use `frosty-faustings-xiv-2022`.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   <figure>
+   <center><img src='src/assets/images/readmeAssets/tournamentName.png' width=75%></center>
+   </figure>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3. Click `Get Events`. A `Select Event` button will appear if the tournament name/slug provided is valid. From the dropdown, select the event you wish to track.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+4. Input any messages you would like to display in the footer section of the `Recent Matches` view. You can add as many as you'd like and they will cycle in order every 8 seconds.
 
-## Learn More
+5. Click submit and a shiny new event card will be created and show up on the dashboard!
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<figure>
+<center><img src='src/assets/images/readmeAssets/eventCard.png' width=50%></center>
+</figure>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+6. click `Set As Active` on the event card and you are now tracking your event!
 
-### Code Splitting
+## Editing your Theme
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+You can edit the theme of your views in a number of ways. Currently, you can change the background of each view and up to three logos that will appear in the header - two logos to the left of the header for things sponsors or organizations, and a centered logo for your event.
 
-### Analyzing the Bundle Size
+Click the `Edit Theme` button to bring up a modal to customize your event.
+From here, you'll be able upload images and select from backgrounds and logos you've updated.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## The Views
 
-### Making a Progressive Web App
+Now that you've created the event you'd like to track, click one of the three views in the upper middle of the dashboard. The views that you can choose to display are:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. The `Recent matches` view that shows the most recently completed matches in the event.
 
-### Advanced Configuration
+<figure>
+<center><img src='src/assets/images/readmeAssets/recentMatches.png'></center>
+</figure>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. The `Stream queue` view that will display which matches are on deck to be broadcasted on stream. You won't see matches in this view unless you add streams and create stations on smash.gg. [More on that here](https://help.smash.gg/en/articles/1465692-adding-streams-and-creating-stations).
 
-### Deployment
+<figure>
+<center><img src='src/assets/images/readmeAssets/streamQueue.png'></center>
+</figure>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+3. The `Top 8 view` that will display the current state of the top 8 bracket of double elimination tournaments.
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<figure>
+<center><img src='src/assets/images/readmeAssets/topEightView.png'></center>
+</figure>
