@@ -22,30 +22,6 @@ import { EventCardList } from "../../components/EventCard";
 import { DashboardLink } from "../../components/Link";
 import { UpdateTheme } from "./UpdateThemeModal/UpdateTheme";
 
-// MVP
-//[X] Create Cards for events created by user
-//[X] ability to set an active event that's being tracked
-//[X] get views to pull from active event database
-//[X] update center logo and background in views to generations league branding
-//[X] link to all the views in dashboard
-//[X] implement password to be able to sign in
-//[] fix multiple renders on page load
-
-// STRETCH GOALS
-//[] implement storage bucket for logos and backgrounds
-//[X] spruce up loading states with loading icons
-//[] implement some league tracking functionality <- omega stretch
-
-// QUESTIONS
-//[] write security rules for reading and writing to database?
-//[X] host site with firebase?
-//[] subscription/unsubscribe metrics?
-
-//----------Bugs---------------
-//showstoppers
-
-//minor
-
 const Dashboard = () => {
   // 1. user changes: rerender
   const [user, loading] = useAuthState(firebase.auth());

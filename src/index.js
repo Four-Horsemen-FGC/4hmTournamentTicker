@@ -78,7 +78,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: `Bearer 8e9426444dca9d12423c7f143474fa75`,
+      authorization: `Bearer a110b956397909ab926a994a0d97ef7e`,
     },
   };
 });

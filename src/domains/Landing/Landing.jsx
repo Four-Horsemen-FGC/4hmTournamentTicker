@@ -13,7 +13,7 @@ const signInWithGoogle = () => {
   firebase.auth().signInWithPopup(firebaseAuthProvider);
 };
 
-const a = "Slaypoossafari42069";
+const a = "RedMonitorGrapefruit";
 
 const Landing = () => {
   const [password, setPassword] = useState("");

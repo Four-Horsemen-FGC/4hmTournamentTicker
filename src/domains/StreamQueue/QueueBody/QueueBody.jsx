@@ -4,6 +4,7 @@ import { useActiveEventOnce, useEntryOnce } from "../../../hooks";
 import { Spinner, Center, Box } from "@chakra-ui/react";
 import QueueSet from "../QueueSet/QueueSet";
 import styles from "./QueueBody.module.css";
+import defaultImage from "../../../assets/images/bg_comingup_4096x2160.jpg";
 
 // const MATCH_RESULTS = gql`
 //   query StreamQueueOnTournament($tourneyId: String!) {
@@ -70,7 +71,7 @@ const flattenQuery = (data) => {
 
 function QueueBody() {
   const { tournamentId } = useActiveEventOnce() || {};
-  const streamQueueURL = useEntryOnce("streamQueue") || {};
+  const streamQueueURL = useEntryOnce("streamQueue") || -1;
   // console.log(`tournamentId`, tournamentId);
 
   // const { loading, error, data } = useQuery(MATCH_RESULTS, {
@@ -118,7 +119,14 @@ function QueueBody() {
   const noUpcomingMatches = <h2>No Upcoming Matches :-(</h2>;
 
   return (
-    <Box bgImage={`url(${streamQueueURL})`} className={styles.QueueBodyFlex}>
+    <Box
+      bgImage={
+        streamQueueURL === -1
+          ? `url(${defaultImage})`
+          : `url(${streamQueueURL})`
+      }
+      className={styles.QueueBodyFlex}
+    >
       <div className={styles.flex}>
         {!upcomingMatches.length ? noUpcomingMatches : upcomingMatches}
       </div>
