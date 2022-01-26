@@ -4,9 +4,9 @@
 
 The Four Horsemen Tournament Ticker is a web application that provides dynamically populated stream views by leveraging data from [smash.gg's GraphQL API](https://developer.smash.gg/docs/intro).
 
-## Running the application
+## Running the Application
 
-After forking and cloning the repo, first install dependencies with `npm install` and open up a dev environment by running `npm start`.
+After forking and cloning the repo, install dependencies with `npm install` and open up a dev environment by running `npm start`.
 
 # How to Use the Ticker
 
@@ -16,7 +16,7 @@ For first time or signed out users, the application will take you to a landing p
 
 ### The Dashboard
 
-Once you've successfully logged in, you'll be directed to the dashboard where you can navigate to the three currently available views (recent matches, Stream Queue and Top 8), create and delete events , and edit the theme of your views.
+Once you've successfully logged in, you'll be directed to the dashboard where you can navigate to the three currently available views (Recent Matches, Stream Queue and Top 8), create and delete events, and edit the theme of your views.
 
 ### Creating a New Event
 
@@ -24,14 +24,14 @@ Once you've successfully logged in, you'll be directed to the dashboard where yo
 
 <p align='center'><img src='./src/assets/images/readmeAssets/createTickerModal.png' width=75%></p>
 
-2. copy paste the name of your tournament as it appears on the smash.gg page or from the url on its page. While copying the tournament name as it appears on the page works and will be formatted for the query to the api, the more fool proof approach is to use the slug in the url.
-
-   For example, in `https://smash.gg/tournament/frosty-faustings-xiv-2022/details`,\
-   you would use `frosty-faustings-xiv-2022`.
+2. Input the name of your tournament as it appears on the smash.gg page or from the url on its page. While copying the tournament name as it appears on the page works and will be formatted for the query to the api, the more fool proof approach is to use the slug in the url.
 
    <figure>
    <p align='center'><img src='src/assets/images/readmeAssets/tournamentName.png' width=90%></p>
    </figure>
+
+   For example, in `https://smash.gg/tournament/frosty-faustings-xiv-2022/details`,\
+   you would use `frosty-faustings-xiv-2022`.
 
 3. Click `Get Events`. A `Select Event` button will appear if the tournament name/slug provided is valid. From the dropdown, select the event you wish to track.
 
@@ -45,13 +45,6 @@ Once you've successfully logged in, you'll be directed to the dashboard where yo
 
 6. click `Set As Active` on the event card and you are now tracking your event!
 
-## Editing your Theme
-
-You can edit the theme of your views in a number of ways. Currently, you can change the background of each view and up to three logos that will appear in the header - two logos to the left of the header for things sponsors or organizations, and a centered logo for your event.
-
-Click the `Edit Theme` button to bring up a modal to customize your event.
-From here, you'll be able upload images and select from backgrounds and logos you've updated.
-
 ## The Views
 
 Now that you've created the event you'd like to track, click one of the three views in the upper middle of the dashboard. The views that you can choose to display are:
@@ -62,14 +55,21 @@ Now that you've created the event you'd like to track, click one of the three vi
 <p align='center'><img src='src/assets/images/readmeAssets/recentMatches.png'></p>
 </figure>
 
-2. The `Stream queue` view that will display which matches are on deck to be broadcasted on stream. You won't see matches in this view unless you add streams and create stations on smash.gg. [More on that here](https://help.smash.gg/en/articles/1465692-adding-streams-and-creating-stations).
+2. The `Stream queue` view that displays which matches are on deck to be broadcasted on stream. You won't see matches in this view unless you add streams and create stations on smash.gg. [More on that here](https://help.smash.gg/en/articles/1465692-adding-streams-and-creating-stations).
 
 <figure>
 <p align='center'><img src='src/assets/images/readmeAssets/streamQueue.png'></p>
 </figure>
 
-3. The `Top 8 view` that will display the current state of the top 8 bracket of double elimination tournaments.
+3. The `Top 8` view that displays the current state of the top 8 bracket of double elimination tournaments.
 
 <figure>
 <p align='center'><img src='src/assets/images/readmeAssets/topEightView.png'></p>
 </figure>
+
+## Editing Your Themes
+
+You can edit the theme of your views in a number of ways. Currently, you can change the background of each view and up to three logos that will appear in the header - two logos to the left of the header for things sponsors or organizations, and a centered logo for your event.
+
+Click the `Edit Theme` button to bring up a modal to customize your event.
+From here, you'll be able upload images and select from backgrounds and logos you've uploaded via the various dropdown menus.
